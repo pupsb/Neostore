@@ -1,0 +1,173 @@
+import React, { useContext, useEffect, useState } from "react";
+import { useGetUsers } from "../../../hooks/admin/useGetUsers";
+import UsersTableRow from "./UsersTableRow";
+import { VariableContext } from "../../../context/VariableContext";
+import Spinner from "../../../components/Spinner";
+
+const UsersData = () => {
+  const { isLoading1, users, getUsers, totalPages, totalCount } = useGetUsers();
+  const { token } = useContext(VariableContext);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterRole, setFilterRole] = useState('All');
+  const [filterVerified, setFilterVerified] = useState('All');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState();
+
+  useEffect(() => {
+    async function fetch() {
+      await getUsers(token, currentPage, rowsPerPage);
+    }
+    fetch();
+  }, [currentPage, token, rowsPerPage]);
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleFilterRoleChange = (event) => {
+    setFilterRole(event.target.value);
+  };
+
+  const handleFilterVerifiedChange = (event) => {
+    setFilterVerified(event.target.value);
+  };
+
+  const handleRowsPerPageChange = (event) => {
+    setRowsPerPage(Number(event.target.value));
+    setCurrentPage(1); // Reset to first page when rows per page is changed
+  };
+
+  const filteredUsers = users?.filter(user => {
+    const matchesSearch = user?.mobilenumber?.toLowerCase().includes(searchQuery.toLowerCase()) || user?.email?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesRole = filterRole === 'All' || user?.role === filterRole;
+    const matchesVerified = filterVerified === 'All' || (filterVerified === 'true' && user?.verified === "true") || (filterVerified === 'false' && user?.verified === "false");
+
+    return matchesSearch && matchesRole && matchesVerified;
+  });
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  return (
+    <>
+      {!isLoading1 ? (
+        <div className="mt-[1rem] mb-[2rem] lg:mx-[1rem] mx-[1rem] flex flex-col gap-3">
+          {/* Search and Filter Section */}
+          <div className="mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+              <input
+                type="text"
+                placeholder="Search by Mobile Number or Email"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white w-full"
+              />
+
+              <div className="flex flex-col sm:flex-row sm:space-x-4 w-full sm:w-auto">
+                <select
+                  value={filterRole}
+                  onChange={handleFilterRoleChange}
+                  className="p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white w-full sm:w-auto"
+                >
+                  <option value="All">Role</option>
+                  <option value="admin">Admin</option>
+                  <option value="user">User</option>
+                  <option value="reseller">Reseller</option>
+                </select>
+
+                <select
+                  value={filterVerified}
+                  onChange={handleFilterVerifiedChange}
+                  className="p-2 mt-4 sm:mt-0 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white w-full sm:w-auto"
+                >
+                  <option value="All">Verification</option>
+                  <option value="true">Verified</option>
+                  <option value="false">Unverified</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Row Controls and Pagination */}
+          <div className="mt-4 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            {/* Rows per page control */}
+            <div className="flex items-center space-x-2">
+              <label htmlFor="rowsPerPage" className="mr-2">Rows per page:</label>
+              <select
+                id="rowsPerPage"
+                value={rowsPerPage}
+                onChange={handleRowsPerPageChange}
+                className="p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
+              >
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+                <option value={250}>250</option>
+                <option value={500}>500</option>
+              </select>
+            </div>
+
+            {/* Total rows count */}
+            <div className="text-center text-sm text-gray-500 dark:text-gray-400">
+              Total Rows: {totalCount}
+            </div>
+
+            {/* Pagination */}
+            <div className="flex justify-center space-x-4">
+              <button
+                className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+              <span className="px-4 py-2">{`Page ${currentPage} of ${totalPages}`}</span>
+              <button
+                className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+
+          {/* Table Section */}
+          <div className="overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-5 py-3">Customer ID</th>
+                  <th scope="col" className="px-5 py-3">Name</th>
+                  <th scope="col" className="px-5 py-3">Mobile No.</th>
+                  <th scope="col" className="px-5 py-3">Email</th>
+                  <th scope="col" className="px-5 py-3">Role</th>
+                  <th scope="col" className="px-5 py-3">Wallet Balance</th>
+                  <th scope="col" className="px-5 py-3">Verified</th>
+                  <th scope="col" className="px-5 py-3">Blocked</th>
+                  <th scope="col" className="px-5 py-3">EditBalance</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredUsers?.map((data) => (
+                  <UsersTableRow key={data?.userid} user={data} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : (
+        <div className="justify-center items-center mt-[6rem] lg:mx-[6rem] mx-[1rem] flex flex-col gap-3">
+          <Spinner />
+        </div>
+      )}
+    </>
+  );
+};
+
+
+export default UsersData;

@@ -1,0 +1,15 @@
+import React from 'react'
+
+const Skeleton = ({ height }) => {
+  return (
+
+
+    <div role="status" className={`flex items-center justify-center h-[7rem] max-w-sm bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700`}>
+
+      <span className="sr-only">Loading...</span>
+    </div>
+
+  )
+}
+
+export default Skeleton

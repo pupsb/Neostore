@@ -1,0 +1,70 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Import Flowbite styles */
+@import 'flowbite';
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+/* General body styling */
+body {
+  background-color: #F8F9FA;
+  font-family: "Rubik", sans-serif;
+  overflow-y: scroll; /* Ensure vertical scrolling is enabled */
+  overflow-x: hidden; /* Disable horizontal scrolling */
+  margin: 0;
+  padding: 0;
+}
+
+/* Root container styling */
+html,
+body,
+#root,
+.app {
+  height: 100%;
+  width: 100%;
+  max-width: 1500px; /* Set max width for the content */
+  margin: 0 auto; /* Center align the content */
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px; /* Visible scrollbar width */
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#d80b38, #E11D48); /* Gradient color for the scrollbar */
+  border-radius: 5px; /* Rounded edges for the scrollbar thumb */
+}
+
+::-webkit-scrollbar-track {
+  background: #f8f9fa; /* Light color for the scrollbar track */
+}
+
+/* Media query for screens wider than 762px */
+@media only screen and (min-width: 762px) {
+  ::-webkit-scrollbar {
+    width: 5px; /* Ensure the scrollbar is visible */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(#d80b38, #E11D48);
+    border-radius: 5px;
+  }
+}
+
+/* Scroll-left animation for horizontal scrolling elements */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Utility className to add scroll-left animation */
+.animate-scroll-left {
+  animation: scroll-left 15s linear infinite;
+}
