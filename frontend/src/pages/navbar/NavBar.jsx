@@ -31,7 +31,7 @@ const NavBar = () => {
         <nav className="bg-white border-b md:bg-opacity-100">
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-              <img src="/Untitled design.png" alt="" className="w-14 rounded-lg" />
+              <img src="/logo.png" alt="" className="w-14 rounded-lg" />
               <span className="text-xl font-bold text-black uppercase tracking-wider shadow-l">
                 NeoStore
               </span>
