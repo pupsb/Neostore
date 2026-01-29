@@ -40,17 +40,21 @@ app.use(express.json({
   }
 }));
 app.use(helmet());
+// Relaxed CSP for development/pre-SSL deployment
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://apis.google.com"],
+      defaultSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://apis.google.com", "https://accounts.google.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+      imgSrc: ["'self'", "data:", "https:", "http:"],
       connectSrc: [
         "'self'",
         process.env.REDIRECT_DOMAIN,
-        "https://accounts.google.com"
+        "https://accounts.google.com",
+        "http://localhost:*",
+        "https://*"
       ],
       frameSrc: [
         "'self'",
