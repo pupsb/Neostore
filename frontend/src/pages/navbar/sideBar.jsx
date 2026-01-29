@@ -14,7 +14,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   );
 
   // WhatsApp link with the constructed message
-  const whatsappLink = `https://wa.me/917005691257?text=${message}`;
+  const whatsappLink = `https://wa.me/919395578107?text=${message}`;
 
   return (
     <>

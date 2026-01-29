@@ -7,7 +7,7 @@ const TnC = () => {
       <p>
         Welcome to NeoStore. These terms and conditions outline the rules and regulations
         for using the NeoStore website, accessible at
-        <a href="https://neostore.in/" className="text-blue-500 underline"> https://neostore.in/</a>.
+        <a href="https://neostoreofficial.in/" className="text-blue-500 underline"> https://neostoreofficial.in/</a>.
       </p>
       <p>
         By accessing this website, we assume that you accept these terms and conditions in full.

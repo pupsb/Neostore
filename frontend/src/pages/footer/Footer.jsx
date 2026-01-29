@@ -35,19 +35,19 @@ const Footer = () => {
           <h3 className="text-lg text-black font-bold mb-4">Follow Us</h3>
           <div className="flex space-x-6">
             <a
-              href="https://www.instagram.com/woexsupply?igsh=MTl2cDAyOGdhcnI0OQ=="
+              href="https://www.instagram.com/neo_store_official?igsh=MWc4dXEzdzU3Yjlr"
               className="flex items-center bg-white rounded-lg p-1 text-pink-500 hover:text-pink-600"
             >
               <FontAwesomeIcon icon={faInstagram} size="2x" />
             </a>
             <a
-              href="https://www.facebook.com/share/WMnDhPJT1iGi5XWB/?mibextid=kFxxJD"
+              href="https://whatsapp.com/channel/0029Vb2QJPp7YSd8Shbd200D"
               className="flex items-center bg-white rounded-lg p-1 text-blue-500 hover:text-blue-600"
             >
               <FontAwesomeIcon icon={faFacebook} size="2x" />
             </a>
             <a
-              href="https://whatsapp.com/channel/0029VakMHbv4o7qM1jKOUg2a"
+              href="https://whatsapp.com/channel/0029Vb2QJPp7YSd8Shbd200D"
               className="flex items-center bg-white rounded-lg p-1 text-green-400 hover:text-green-600"
             >
               <FontAwesomeIcon icon={faWhatsapp} size="2x" />
