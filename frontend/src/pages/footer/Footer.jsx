@@ -21,7 +21,7 @@ const Footer = () => {
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-start mb-2">
         <div className="flex flex-col items-center items-start space-y-4 md:w-1/2">
           <div className="flex items-center space-x-4">
-            <img src="/nav-logo.png" alt="logo" className="h-12 rounded-lg p-0.2" />
+            <img src="/nav-logo.png" alt="logo" className="h-20 rounded-lg p-0.2" />
             {/* <h2 className="text-2xl text-black font-bold text-center font-franklin">Woex Supply</h2> */}
           </div>
           {/* <h3 className="text-m text-center">Woex Supply, YOUR CHOICE & YOUR SATISFACTION</h3> */}
@@ -53,7 +53,7 @@ const Footer = () => {
               <FontAwesomeIcon icon={faWhatsapp} size="2x" />
             </a>
             <a
-              href="https://t.me/Neostore"
+              href="https://t.me/+wT8Xksmji55hYWE1"
               className="flex items-center bg-white rounded-lg p-1 text-blue-500 hover:text-blue-600"
             >
               <FontAwesomeIcon icon={faTelegram} size="2x" />
