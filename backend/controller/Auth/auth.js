@@ -4,7 +4,7 @@ import User from "../../models/User.js";
 import { sendEmail } from "../../mailer.js";
 import Wallet from "../../models/Wallet.js";
 import Point from "../../models/Points.js";
-import TempUser from "../../models/TempUser.js";
+import TempUser from "../../models/tempUser.js";
 import { sendOtp, sendOneApiOtp } from "../../sendOtp.js";
 
 // export const register = async (req, res) => {
