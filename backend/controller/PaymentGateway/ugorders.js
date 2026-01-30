@@ -139,6 +139,17 @@ export const ugOrderStatus = async (req, res) => {
       (order.paymentmode === "wallet" && order.status === "Created")
     ) {
 
+      // DEBUG: Log Order and Item details
+      console.log('[UGORDERS] Processing Order:', {
+        orderId: client_txn_id,
+        orderItemid: order.itemid,
+        orderProductid: order.productid,
+        orderItemidArray: order.itemidarray,
+        fetchedItemName: item?.name,
+        fetchedItemApiType: item?.apiType,
+        fetchedItemid: item?.itemid
+      });
+
       order = await Order.findOneAndUpdate(
         { orderid: client_txn_id },
         { status: "Queued" },
@@ -146,7 +157,10 @@ export const ugOrderStatus = async (req, res) => {
       );
 
       //if product is smileone
-      if (product.isApi && item.isApi && (item.apiType === "SMILEBR" || item.apiType === "SMILEPH") && (order.status === "Queued")) {
+      const isSmileOne = product.isApi && item.isApi && (item.apiType === "SMILEBR" || item.apiType === "SMILEPH") && (order.status === "Queued");
+      console.log('[UGORDERS] Check SmileOne:', isSmileOne, item.apiType);
+
+      if (isSmileOne) {
         const completeSmileOneOrder = await processSmileOneOrder(client_txn_id, itemidarray, item, product, order, date);
 
         //if smile recharge success
@@ -206,7 +220,11 @@ export const ugOrderStatus = async (req, res) => {
           );
         }
       }
-      else if (product.isApi && item.isApi && (item.apiType === "MOOGOLDMLBB" || item.apiType === "MOOGOLDGENSHIN" || item.apiType === "MOOGOLDPUBG" || item.apiType === "MOOGOLDHOK") && (order.status === "Queued")) {
+      else {
+          const isMoogold = product.isApi && item.isApi && (item.apiType === "MOOGOLDMLBB" || item.apiType === "MOOGOLDGENSHIN" || item.apiType === "MOOGOLDPUBG" || item.apiType === "MOOGOLDHOK") && (order.status === "Queued");
+          console.log('[UGORDERS] Check Moogold:', isMoogold, item.apiType);
+          
+          if (isMoogold) {
 
         const completeMoogoldOrder = await processMoogoldApiOrder(client_txn_id, itemidarray, item, product, order, date);
 
