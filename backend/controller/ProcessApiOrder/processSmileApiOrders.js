@@ -21,12 +21,12 @@ async function processSmileOneOrder(clientTxnId, itemidarray, product, item, ord
     const product1 = "mobilelegends";
     const mKey = process.env.API_MKEY;
   
-    console.log('[SMILEONE] Starting order processing:', { 
+    /* console.log('[SMILEONE] Starting order processing:', { 
       clientTxnId, 
       itemCount: itemidarray.length,
       userid: order.input1,
       zoneid: order.input2
-    });
+    }); */
 
     for (let i = 0; i < itemidarray.length; i++) {
       const time = Math.floor(Date.now() / 1000);
@@ -44,24 +44,25 @@ async function processSmileOneOrder(clientTxnId, itemidarray, product, item, ord
   
       const sign = await generateSignature(signObj, mKey);
       
+      
       // DEBUG: Check apiType value
-      console.log('[SMILEONE] API Type Debug:', {
+      /* console.log('[SMILEONE] API Type Debug:', {
         apiType: item.apiType,
         typeofApiType: typeof item.apiType,
         isSMILEBR: item.apiType === "SMILEBR"
-      });
+      }); */
       
       const url = item.apiType === "SMILEBR"
         ? "https://www.smile.one/smilecoin/api/createorder"
         : "https://www.smile.one/ph/smilecoin/api/createorder";
   
-      console.log('[SMILEONE] Request details:', {
+      /* console.log('[SMILEONE] Request details:', {
         clientTxnId,
         url,
         productid: itemidarray[i],
         userid: signObj.userid,
         zoneid: signObj.zoneid
-      });
+      }); */
 
       try {
         // Add 30-second timeout
@@ -83,13 +84,13 @@ async function processSmileOneOrder(clientTxnId, itemidarray, product, item, ord
         clearTimeout(timeoutId);
     
         const data1 = await response.json();
-        console.log('[SMILEONE] Response received:', {
+        /* console.log('[SMILEONE] Response received:', {
           clientTxnId,
           productid: itemidarray[i],
           status: response.status,
           message: data1.message,
           fullResponse: data1
-        });
+        }); */
     
         if (data1.message !== "success") {
           console.error('[SMILEONE] Order failed:', {

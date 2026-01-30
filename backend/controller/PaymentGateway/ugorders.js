@@ -140,7 +140,7 @@ export const ugOrderStatus = async (req, res) => {
     ) {
 
       // DEBUG: Log Order and Item details
-      console.log('[UGORDERS] Processing Order:', {
+      /* console.log('[UGORDERS] Processing Order:', {
         orderId: client_txn_id,
         orderItemid: order.itemid,
         orderProductid: order.productid,
@@ -148,7 +148,7 @@ export const ugOrderStatus = async (req, res) => {
         fetchedItemName: item?.name,
         fetchedItemApiType: item?.apiType,
         fetchedItemid: item?.itemid
-      });
+      }); */
 
       order = await Order.findOneAndUpdate(
         { orderid: client_txn_id },
@@ -158,7 +158,7 @@ export const ugOrderStatus = async (req, res) => {
 
       //if product is smileone
       const isSmileOne = product.isApi && item.isApi && (item.apiType === "SMILEBR" || item.apiType === "SMILEPH") && (order.status === "Queued");
-      console.log('[UGORDERS] Check SmileOne:', isSmileOne, item.apiType);
+      // console.log('[UGORDERS] Check SmileOne:', isSmileOne, item.apiType);
 
       if (isSmileOne) {
         const completeSmileOneOrder = await processSmileOneOrder(client_txn_id, itemidarray, product, item, order, date);
@@ -222,7 +222,7 @@ export const ugOrderStatus = async (req, res) => {
       }
       else {
           const isMoogold = product.isApi && item.isApi && (item.apiType === "MOOGOLDMLBB" || item.apiType === "MOOGOLDGENSHIN" || item.apiType === "MOOGOLDPUBG" || item.apiType === "MOOGOLDHOK") && (order.status === "Queued");
-          console.log('[UGORDERS] Check Moogold:', isMoogold, item.apiType);
+          // console.log('[UGORDERS] Check Moogold:', isMoogold, item.apiType);
           
           if (isMoogold) {
 
