@@ -43,6 +43,14 @@ async function processSmileOneOrder(clientTxnId, itemidarray, product, item, ord
       };
   
       const sign = await generateSignature(signObj, mKey);
+      
+      // DEBUG: Check apiType value
+      console.log('[SMILEONE] API Type Debug:', {
+        apiType: item.apiType,
+        typeofApiType: typeof item.apiType,
+        isSMILEBR: item.apiType === "SMILEBR"
+      });
+      
       const url = item.apiType === "SMILEBR"
         ? "https://www.smile.one/smilecoin/api/createorder"
         : "https://www.smile.one/ph/smilecoin/api/createorder";
