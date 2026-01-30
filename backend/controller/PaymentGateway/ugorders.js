@@ -313,6 +313,7 @@ export const ugOrderStatus = async (req, res) => {
 
       }
     }
+    }
     //if payment is pending
     else if (data.status && data.data.status === "failure") {
       await Order.findOneAndUpdate(
