@@ -324,13 +324,35 @@ export const addUserWalletBalance = async (req, res) => {
       return res.status(404).send({ error: "User not found" });
     }
 
-    // Fetch the wallet
-    const wallet = await Wallet.findOne({ dbuserid: user._id });
+    // Fetch the wallet - create if doesn't exist
+    let wallet = await Wallet.findOne({ dbuserid: user._id });
     console.log('[ADD BALANCE] Wallet query:', { dbuserid: user._id });
     console.log('[ADD BALANCE] Wallet found:', wallet ? { _id: wallet._id, balance: wallet.balance } : null);
+    
     if (!wallet) {
-      console.log('[ADD BALANCE] Wallet not found for user._id:', user._id);
-      return res.status(404).send({ error: "Wallet not found" });
+      console.log('[ADD BALANCE] Wallet not found, creating new wallet for user._id:', user._id);
+      // Create new wallet for this user
+      wallet = new Wallet({
+        dbuserid: user._id,
+        userid: user.userid,
+        useremail: user.email,
+        balance: 0
+      });
+      await wallet.save();
+      
+      // Also create Points if missing
+      const existingPoints = await Point.findOne({ dbuserid: user._id });
+      if (!existingPoints) {
+        const newPoints = new Point({
+          dbuserid: user._id,
+          userid: user.userid,
+          useremail: user.email,
+          balance: 0
+        });
+        await newPoints.save();
+        console.log('[ADD BALANCE] Created Points for user');
+      }
+      console.log('[ADD BALANCE] Created new wallet with ID:', wallet._id);
     }
 
     // Generate transaction ID
