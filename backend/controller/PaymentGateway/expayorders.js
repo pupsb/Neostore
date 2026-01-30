@@ -188,7 +188,7 @@ export const checkExpayOrderStatus = async (req, res) => {
           order.status === "Queued") {
         
         const completeSmileOneOrder = await processSmileOneOrder(
-          order_id, itemidarray, item, product, order, date
+          order_id, itemidarray, product, item, order, date
         );
 
         // If SmileOne recharge successful
@@ -449,7 +449,7 @@ async function processWebhookAsync(orderId, status, amount, utr, date, event, re
         (item.apiType === "SMILEBR" || item.apiType === "SMILEPH")) {
       
       const completeSmileOneOrder = await processSmileOneOrder(
-        orderId, itemidarray, item, product, order, date
+        orderId, itemidarray, product, item, order, date
       );
 
       if (completeSmileOneOrder) {

@@ -161,7 +161,7 @@ export const ugOrderStatus = async (req, res) => {
       console.log('[UGORDERS] Check SmileOne:', isSmileOne, item.apiType);
 
       if (isSmileOne) {
-        const completeSmileOneOrder = await processSmileOneOrder(client_txn_id, itemidarray, item, product, order, date);
+        const completeSmileOneOrder = await processSmileOneOrder(client_txn_id, itemidarray, product, item, order, date);
 
         //if smile recharge success
         if (completeSmileOneOrder) {
