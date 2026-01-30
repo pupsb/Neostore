@@ -309,20 +309,27 @@ export const updateProduct = async (req, res) => {
 export const addUserWalletBalance = async (req, res) => {
   try {
     const { userId, email, amount } = req.body;
+    console.log('[ADD BALANCE] Request received:', { userId, email, amount });
 
     if (amount <= 0) {
+      console.log('[ADD BALANCE] Invalid amount:', amount);
       return res.status(400).send({ error: "Invalid amount" });
     }
 
     // Fetch the user
     const user = await User.findOne({ userid: userId, email: email });
+    console.log('[ADD BALANCE] User found:', user ? { _id: user._id, userid: user.userid, email: user.email } : null);
     if (!user) {
+      console.log('[ADD BALANCE] User not found for:', { userId, email });
       return res.status(404).send({ error: "User not found" });
     }
 
     // Fetch the wallet
     const wallet = await Wallet.findOne({ dbuserid: user._id });
+    console.log('[ADD BALANCE] Wallet query:', { dbuserid: user._id });
+    console.log('[ADD BALANCE] Wallet found:', wallet ? { _id: wallet._id, balance: wallet.balance } : null);
     if (!wallet) {
+      console.log('[ADD BALANCE] Wallet not found for user._id:', user._id);
       return res.status(404).send({ error: "Wallet not found" });
     }
 
@@ -349,6 +356,7 @@ export const addUserWalletBalance = async (req, res) => {
     wallet.balance = newBalance;
     const updatedWallet = await wallet.save();
 
+    console.log('[ADD BALANCE] Success! New balance:', updatedWallet.balance);
     res.status(200).send({ transaction: savedTxn, wallet: updatedWallet });
   } catch (error) {
     console.error("Error in addUserWalletBalance:", error);
