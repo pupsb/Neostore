@@ -321,7 +321,7 @@ export const addUserWalletBalance = async (req, res) => {
     }
 
     // Fetch the wallet
-    const wallet = await Wallet.findOne({ userid: user.userid, useremail: user.email });
+    const wallet = await Wallet.findOne({ dbuserid: user._id });
     if (!wallet) {
       return res.status(404).send({ error: "Wallet not found" });
     }
