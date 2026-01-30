@@ -12,8 +12,17 @@ const AdminTableRow = ({ data, setChange }) => {
   const { getAccessTokenSilently } = useAuth0();
 
   const handleUpdateOrder = async (orderId, status) => {
-    await UpdateOrder(orderId, token, status, reason);
-    setChange((prev) => !prev);
+    try {
+      // Use default reason if empty
+      const updateReason = reason.trim() || "Admin action";
+      await UpdateOrder(orderId, token, status, updateReason);
+      setChange((prev) => !prev);
+      // Show success message
+      alert(`Order updated to ${status} successfully!`);
+    } catch (error) {
+      console.error("Failed to update order:", error);
+      alert("Failed to update order. Please try again.");
+    }
   };
   return (
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -65,7 +74,12 @@ const AdminTableRow = ({ data, setChange }) => {
         </button>
       </td>
       <td className="px-6 py-4">
-        <input type="text" onChange={(e) => setReason(e.target.value)} />
+        <input
+          type="text"
+          placeholder="Reason (optional)"
+          className="border border-gray-300 rounded px-2 py-1 text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          onChange={(e) => setReason(e.target.value)}
+        />
       </td>
     </tr>
   );
