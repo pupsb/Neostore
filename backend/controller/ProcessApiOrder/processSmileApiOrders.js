@@ -21,6 +21,13 @@ async function processSmileOneOrder(clientTxnId, itemidarray, product, item, ord
     const product1 = "mobilelegends";
     const mKey = process.env.API_MKEY;
   
+    console.log('[SMILEONE] Starting order processing:', { 
+      clientTxnId, 
+      itemCount: itemidarray.length,
+      userid: order.input1,
+      zoneid: order.input2
+    });
+
     for (let i = 0; i < itemidarray.length; i++) {
       const time = Math.floor(Date.now() / 1000);
   
@@ -40,28 +47,66 @@ async function processSmileOneOrder(clientTxnId, itemidarray, product, item, ord
         ? "https://www.smile.one/smilecoin/api/createorder"
         : "https://www.smile.one/ph/smilecoin/api/createorder";
   
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...signObj,
-          sign,
-        }),
+      console.log('[SMILEONE] Request details:', {
+        clientTxnId,
+        url,
+        productid: itemidarray[i],
+        userid: signObj.userid,
+        zoneid: signObj.zoneid
       });
-  
-      const data1 = await response.json();
-      // console.log(data1);
-      
-  
-      if (data1.message !== "success") {
-        // Return false immediately if any item fails
+
+      try {
+        // Add 30-second timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...signObj,
+            sign,
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+    
+        const data1 = await response.json();
+        console.log('[SMILEONE] Response received:', {
+          clientTxnId,
+          productid: itemidarray[i],
+          status: response.status,
+          message: data1.message,
+          fullResponse: data1
+        });
+    
+        if (data1.message !== "success") {
+          console.error('[SMILEONE] Order failed:', {
+            clientTxnId,
+            productid: itemidarray[i],
+            errorMessage: data1.message,
+            errorDetails: data1,
+            userid: order.input1,
+            zoneid: order.input2
+          });
+          return false;
+        }
+      } catch (error) {
+        console.error('[SMILEONE] Network error:', {
+          clientTxnId,
+          productid: itemidarray[i],
+          errorName: error.name,
+          errorMessage: error.message,
+          isTimeout: error.name === 'AbortError'
+        });
         return false;
       }
     }
   
-    // If all items succeed, return true
+    console.log('[SMILEONE] All items processed successfully:', { clientTxnId });
     return true;
   }
 
