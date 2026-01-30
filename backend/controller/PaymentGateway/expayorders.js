@@ -174,6 +174,15 @@ export const checkExpayOrderStatus = async (req, res) => {
       );
 
       // Process SmileOne API orders
+      
+      // DEBUG: Check ExPay Order Status logic
+      console.log('[EXPAY_STATUS] Item Check:', {
+        name: item.name,
+        apiType: item.apiType,
+        isApi: item.isApi,
+        orderStatus: order.status
+      });
+
       if (product.isApi && item.isApi && 
           (item.apiType === "SMILEBR" || item.apiType === "SMILEPH") && 
           order.status === "Queued") {
