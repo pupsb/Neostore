@@ -50,20 +50,20 @@ const CarouselPeek = ({ data }) => {
     const handlePrevious = () => {
         setIsTransitioning(true);
         setCurrentIndex((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
-        setTimeout(() => setIsTransitioning(false), 600);
+        setTimeout(() => setIsTransitioning(false), 700);
     };
 
     const handleNext = () => {
         setIsTransitioning(true);
         setCurrentIndex((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
-        setTimeout(() => setIsTransitioning(false), 600);
+        setTimeout(() => setIsTransitioning(false), 700);
     };
 
     const goToSlide = (index) => {
         if (isTransitioning) return;
         setIsTransitioning(true);
         setCurrentIndex(index);
-        setTimeout(() => setIsTransitioning(false), 600);
+        setTimeout(() => setIsTransitioning(false), 700);
     };
 
     // Helper to get image URL
@@ -80,10 +80,15 @@ const CarouselPeek = ({ data }) => {
         <div className="relative w-full mt-2">
             {/* Desktop Carousel - Peek Effect */}
             <div className="hidden md:block relative h-80 overflow-visible">
-                <div className="flex items-center justify-center h-full relative">
+                <div
+                    className="flex items-center justify-center h-full relative transition-transform duration-700 ease-out"
+                    style={{
+                        transform: `translateX(0)` // Base position, animations handled via opacity
+                    }}
+                >
                     {/* Previous Image (Left Peek) */}
                     <div
-                        className="absolute left-0 h-64 w-1/4 cursor-pointer transition-all duration-600 ease-in-out hover:scale-105"
+                        className="absolute left-0 h-64 w-1/4 cursor-pointer transition-all duration-700 ease-out hover:scale-105"
                         style={{
                             transform: 'translateX(10%) scale(0.85)',
                             opacity: 0.6,
@@ -98,7 +103,7 @@ const CarouselPeek = ({ data }) => {
                                     key={`prev-${currentIndex}`}
                                     src={getImageUrl(slideData.url)}
                                     alt="Previous"
-                                    className="w-full h-full object-cover rounded-2xl shadow-lg"
+                                    className="w-full h-full object-cover rounded-2xl shadow-lg transition-all duration-700 ease-out"
                                 />
                             ) : null;
                         })()}
@@ -106,11 +111,11 @@ const CarouselPeek = ({ data }) => {
 
                     {/* Center Image (Active) */}
                     <div
-                        className="relative h-80 w-1/2 transition-all duration-600 ease-in-out"
+                        className="relative h-80 w-1/2 transition-all duration-700 ease-out"
                         style={{
                             zIndex: 10,
-                            opacity: isTransitioning ? 0.3 : 1,
-                            transform: isTransitioning ? 'scale(0.95)' : 'scale(1)'
+                            opacity: 1,
+                            transform: 'scale(1)'
                         }}
                     >
                         {(() => {
@@ -127,7 +132,7 @@ const CarouselPeek = ({ data }) => {
                                     <img
                                         src={getImageUrl(slideData.url)}
                                         alt={slideData.title || `Slide ${currentIndex + 1}`}
-                                        className="w-full h-full object-cover rounded-2xl shadow-2xl transition-transform duration-600"
+                                        className="w-full h-full object-cover rounded-2xl shadow-2xl transition-all duration-700 ease-out"
                                     />
                                 </a>
                             ) : null;
@@ -136,7 +141,7 @@ const CarouselPeek = ({ data }) => {
 
                     {/* Next Image (Right Peek) */}
                     <div
-                        className="absolute right-0 h-64 w-1/4 cursor-pointer transition-all duration-600 ease-in-out hover:scale-105"
+                        className="absolute right-0 h-64 w-1/4 cursor-pointer transition-all duration-700 ease-out hover:scale-105"
                         style={{
                             transform: 'translateX(-10%) scale(0.85)',
                             opacity: 0.6,
@@ -151,7 +156,7 @@ const CarouselPeek = ({ data }) => {
                                     key={`next-${currentIndex}`}
                                     src={getImageUrl(slideData.url)}
                                     alt="Next"
-                                    className="w-full h-full object-cover rounded-2xl shadow-lg"
+                                    className="w-full h-full object-cover rounded-2xl shadow-lg transition-all duration-700 ease-out"
                                 />
                             ) : null;
                         })()}
@@ -198,9 +203,9 @@ const CarouselPeek = ({ data }) => {
 
             {/* Mobile Carousel - With Navigation */}
             <div
-                className="block md:hidden relative h-48 rounded-2xl overflow-hidden transition-opacity duration-600"
+                className="block md:hidden relative h-48 rounded-2xl overflow-hidden transition-opacity duration-700 ease-out"
                 style={{
-                    opacity: isTransitioning ? 0.3 : 1
+                    opacity: isTransitioning ? 0 : 1
                 }}
             >
                 {(() => {
@@ -212,9 +217,9 @@ const CarouselPeek = ({ data }) => {
                             onClick={(e) => {
                                 if (!slideData.redirectUrl) e.preventDefault();
                             }}
-                            className="block w-full h-full transition-transform duration-600"
+                            className="block w-full h-full transition-all duration-700 ease-out"
                             style={{
-                                transform: isTransitioning ? 'scale(0.95)' : 'scale(1)'
+                                transform: isTransitioning ? 'scale(0.98)' : 'scale(1)'
                             }}
                         >
                             <img
