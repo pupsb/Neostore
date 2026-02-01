@@ -46,7 +46,7 @@ const CarouselPeek = (data) => {
         }, 5000); // Change slide every 5 seconds
 
         return () => clearInterval(interval);
-    }, [totalSlides]); // Only depend on totalSlides, not currentIndex
+    }, [totalSlides]);
 
     const handlePrevious = () => {
         setCurrentIndex((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
@@ -177,8 +177,8 @@ const CarouselPeek = (data) => {
                             key={index}
                             onClick={() => goToSlide(index)}
                             className={`transition-all duration-300 rounded-full ${index === currentIndex
-                                ? "w-8 h-3 bg-purple-500"
-                                : "w-3 h-3 bg-white/50 hover:bg-white/80"
+                                    ? "w-8 h-3 bg-purple-500"
+                                    : "w-3 h-3 bg-white/50 hover:bg-white/80"
                                 }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
@@ -186,7 +186,7 @@ const CarouselPeek = (data) => {
                 </div>
             </div>
 
-            {/* Mobile Carousel - Simple */}
+            {/* Mobile Carousel - With Navigation */}
             <div className="block md:hidden relative h-48 rounded-2xl overflow-hidden">
                 {(() => {
                     const slideData = getSlideData(currentIndex, carouselMbData);
@@ -201,28 +201,50 @@ const CarouselPeek = (data) => {
                             <img
                                 src={getImageUrl(slideData.url)}
                                 alt={slideData.title || `Mobile Slide ${currentIndex + 1}`}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover rounded-2xl"
                             />
                         </a>
                     ) : null;
                 })()}
 
+                {/* Mobile Left Arrow */}
+                <button
+                    onClick={handlePrevious}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-300"
+                    aria-label="Previous slide"
+                >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+
+                {/* Mobile Right Arrow */}
+                <button
+                    onClick={handleNext}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-300"
+                    aria-label="Next slide"
+                >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+
                 {/* Mobile Navigation Dots */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-20">
                     {carouselMbData.map((_, index) => (
                         <button
                             key={index}
                             onClick={() => goToSlide(index)}
                             className={`transition-all duration-300 rounded-full ${index === currentIndex
-                                ? "w-6 h-2 bg-white"
-                                : "w-2 h-2 bg-white/50"
+                                    ? "w-6 h-2 bg-purple-500"
+                                    : "w-2 h-2 bg-white/50"
                                 }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
                     ))}
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 
