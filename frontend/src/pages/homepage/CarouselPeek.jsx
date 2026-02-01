@@ -5,7 +5,7 @@ const CarouselPeek = (data) => {
     const [isTransitioning, setIsTransitioning] = useState(false);
 
     // Destructure CarouselMb and CarouselPc from data prop
-    const { CarouselMb, CarouselPc } = data.data || {};
+    const { CarouselMb, CarouselPc } = data || {};
 
     // Fallback test images for development when backend data is unavailable
     const testImages = [
@@ -177,8 +177,8 @@ const CarouselPeek = (data) => {
                             key={index}
                             onClick={() => goToSlide(index)}
                             className={`transition-all duration-300 rounded-full ${index === currentIndex
-                                    ? "w-8 h-3 bg-purple-500"
-                                    : "w-3 h-3 bg-white/50 hover:bg-white/80"
+                                ? "w-8 h-3 bg-purple-500"
+                                : "w-3 h-3 bg-white/50 hover:bg-white/80"
                                 }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
@@ -236,8 +236,8 @@ const CarouselPeek = (data) => {
                             key={index}
                             onClick={() => goToSlide(index)}
                             className={`transition-all duration-300 rounded-full ${index === currentIndex
-                                    ? "w-6 h-2 bg-purple-500"
-                                    : "w-2 h-2 bg-white/50"
+                                ? "w-6 h-2 bg-purple-500"
+                                : "w-2 h-2 bg-white/50"
                                 }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
