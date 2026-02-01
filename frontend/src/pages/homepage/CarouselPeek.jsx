@@ -133,7 +133,7 @@ const CarouselPeek = ({ data }) => {
                     >
                         {carouselMbData.map((slide, index) => (
                             <div key={`mobile-slide-${index}`} className="w-full flex-shrink-0">
-                                <div className="w-full h-[280px] bg-gray-100 overflow-hidden">
+                                <div className="w-full h-[200px] bg-gray-100 overflow-hidden">
                                     <a
                                         href={slide.redirectUrl || "#"}
                                         onClick={(e) => {
