@@ -48,11 +48,15 @@ const CarouselPeek = ({ data }) => {
     }, [totalSlides]);
 
     const handlePrevious = () => {
+        setIsTransitioning(true);
         setCurrentIndex((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
+        setTimeout(() => setIsTransitioning(false), 600);
     };
 
     const handleNext = () => {
+        setIsTransitioning(true);
         setCurrentIndex((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
+        setTimeout(() => setIsTransitioning(false), 600);
     };
 
     const goToSlide = (index) => {
@@ -103,7 +107,11 @@ const CarouselPeek = ({ data }) => {
                     {/* Center Image (Active) */}
                     <div
                         className="relative h-80 w-1/2 transition-all duration-600 ease-in-out"
-                        style={{ zIndex: 10 }}
+                        style={{
+                            zIndex: 10,
+                            opacity: isTransitioning ? 0.3 : 1,
+                            transform: isTransitioning ? 'scale(0.95)' : 'scale(1)'
+                        }}
                     >
                         {(() => {
                             const slideData = getSlideData(currentIndex, carouselPcData);
@@ -119,7 +127,7 @@ const CarouselPeek = ({ data }) => {
                                     <img
                                         src={getImageUrl(slideData.url)}
                                         alt={slideData.title || `Slide ${currentIndex + 1}`}
-                                        className="w-full h-full object-cover rounded-2xl shadow-2xl"
+                                        className="w-full h-full object-cover rounded-2xl shadow-2xl transition-transform duration-600"
                                     />
                                 </a>
                             ) : null;
@@ -189,7 +197,12 @@ const CarouselPeek = ({ data }) => {
             </div>
 
             {/* Mobile Carousel - With Navigation */}
-            <div className="block md:hidden relative h-48 rounded-2xl overflow-hidden">
+            <div
+                className="block md:hidden relative h-48 rounded-2xl overflow-hidden transition-opacity duration-600"
+                style={{
+                    opacity: isTransitioning ? 0.3 : 1
+                }}
+            >
                 {(() => {
                     const slideData = getSlideData(currentIndex, carouselMbData);
                     return slideData ? (
@@ -199,7 +212,10 @@ const CarouselPeek = ({ data }) => {
                             onClick={(e) => {
                                 if (!slideData.redirectUrl) e.preventDefault();
                             }}
-                            className="block w-full h-full"
+                            className="block w-full h-full transition-transform duration-600"
+                            style={{
+                                transform: isTransitioning ? 'scale(0.95)' : 'scale(1)'
+                            }}
                         >
                             <img
                                 src={getImageUrl(slideData.url)}
