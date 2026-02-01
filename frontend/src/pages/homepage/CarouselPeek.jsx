@@ -1,12 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import { VariableContext } from "../../context/VariableContext";
+import React, { useState, useEffect } from "react";
 
 const CarouselPeek = ({ data }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
-
-    // Get backend host URL for images
-    const { host } = useContext(VariableContext);
 
     // Destructure CarouselMb and CarouselPc from data prop
     const { CarouselMb, CarouselPc } = data || {};
@@ -38,235 +34,229 @@ const CarouselPeek = ({ data }) => {
 
     // Auto-play functionality
     useEffect(() => {
-        if (totalSlides <= 1) return; // Don't auto-play if only 1 slide
+        if (totalSlides <= 1) return;
 
         const interval = setInterval(() => {
-            setCurrentIndex((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
-        }, 5000); // Change slide every 5 seconds
+            handleNext();
+        }, 5000);
 
         return () => clearInterval(interval);
-    }, [totalSlides]);
+    }, [currentIndex, totalSlides]);
 
     const handlePrevious = () => {
+        if (isTransitioning) return;
         setIsTransitioning(true);
         setCurrentIndex((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
-        setTimeout(() => setIsTransitioning(false), 700);
+        setTimeout(() => setIsTransitioning(false), 600);
     };
 
     const handleNext = () => {
+        if (isTransitioning) return;
         setIsTransitioning(true);
         setCurrentIndex((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
-        setTimeout(() => setIsTransitioning(false), 700);
+        setTimeout(() => setIsTransitioning(false), 600);
     };
 
     const goToSlide = (index) => {
-        if (isTransitioning) return;
+        if (isTransitioning || index === currentIndex) return;
         setIsTransitioning(true);
         setCurrentIndex(index);
-        setTimeout(() => setIsTransitioning(false), 700);
+        setTimeout(() => setIsTransitioning(false), 600);
     };
 
     // Helper to get image URL
     const getImageUrl = (imagePath) => `${imagePath}`;
 
-    // Safe array access helper
-    const getSlideData = (index, dataArray) => {
-        if (!dataArray || dataArray.length === 0) return null;
-        const safeIndex = ((index % dataArray.length) + dataArray.length) % dataArray.length;
-        return dataArray[safeIndex];
+    // Get slide position for 3D carousel
+    const getSlideStyle = (index) => {
+        const diff = index - currentIndex;
+        const absIndex = ((index % totalSlides) + totalSlides) % totalSlides;
+
+        if (diff === 0) {
+            // Center slide
+            return {
+                transform: 'translateZ(0px) scale(1)',
+                zIndex: 10,
+                opacity: 1,
+                transition: isTransitioning ? 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
+            };
+        } else if (diff === 1 || diff === -(totalSlides - 1)) {
+            // Right slide
+            return {
+                transform: 'translateX(35%) translateZ(-250px) scale(0.75)',
+                zIndex: 9,
+                opacity: 0.5,
+                transition: isTransitioning ? 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
+            };
+        } else if (diff === -1 || diff === (totalSlides - 1)) {
+            // Left slide
+            return {
+                transform: 'translateX(-35%) translateZ(-250px) scale(0.75)',
+                zIndex: 9,
+                opacity: 0.5,
+                transition: isTransitioning ? 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
+            };
+        } else {
+            // Hidden slides
+            return {
+                transform: 'translateZ(-500px) scale(0.5)',
+                zIndex: 1,
+                opacity: 0,
+                transition: isTransitioning ? 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
+            };
+        }
+    };
+
+    const getClickHandler = (index) => {
+        const diff = index - currentIndex;
+        if (diff === 1 || diff === -(totalSlides - 1)) {
+            return handleNext;
+        } else if (diff === -1 || diff === (totalSlides - 1)) {
+            return handlePrevious;
+        }
+        return () => { };
     };
 
     return (
         <div className="relative w-full mt-2">
-            {/* Desktop Carousel - Peek Effect */}
-            <div className="hidden md:block relative h-80 overflow-visible">
-                <div
-                    className="flex items-center justify-center h-full relative transition-transform duration-700 ease-out"
-                    style={{
-                        transform: `translateX(0)` // Base position, animations handled via opacity
-                    }}
-                >
-                    {/* Previous Image (Left Peek) */}
+            {/* Mobile Carousel - Sliding */}
+            <div className="md:hidden relative">
+                <div className="overflow-hidden rounded-2xl shadow-xl">
                     <div
-                        className="absolute left-0 h-64 w-1/4 cursor-pointer transition-all duration-700 ease-out hover:scale-105"
+                        className="flex"
                         style={{
-                            transform: 'translateX(10%) scale(0.85)',
-                            opacity: 0.6,
-                            zIndex: 1
-                        }}
-                        onClick={handlePrevious}
-                    >
-                        {(() => {
-                            const slideData = getSlideData(currentIndex - 1, carouselPcData);
-                            return slideData ? (
-                                <img
-                                    key={`prev-${currentIndex}`}
-                                    src={getImageUrl(slideData.url)}
-                                    alt="Previous"
-                                    className="w-full h-full object-cover rounded-2xl shadow-lg transition-all duration-700 ease-out"
-                                />
-                            ) : null;
-                        })()}
-                    </div>
-
-                    {/* Center Image (Active) */}
-                    <div
-                        className="relative h-80 w-1/2 transition-all duration-700 ease-out"
-                        style={{
-                            zIndex: 10,
-                            opacity: 1,
-                            transform: 'scale(1)'
+                            transform: `translateX(-${currentIndex * 100}%)`,
+                            transition: isTransitioning ? 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
                         }}
                     >
-                        {(() => {
-                            const slideData = getSlideData(currentIndex, carouselPcData);
-                            return slideData ? (
-                                <a
-                                    key={`current-${currentIndex}`}
-                                    href={slideData.redirectUrl || "#"}
-                                    onClick={(e) => {
-                                        if (!slideData.redirectUrl) e.preventDefault();
-                                    }}
-                                    className="block w-full h-full"
-                                >
-                                    <img
-                                        src={getImageUrl(slideData.url)}
-                                        alt={slideData.title || `Slide ${currentIndex + 1}`}
-                                        className="w-full h-full object-cover rounded-2xl shadow-2xl transition-all duration-700 ease-out"
-                                    />
-                                </a>
-                            ) : null;
-                        })()}
+                        {carouselMbData.map((slide, index) => (
+                            <div key={`mobile-slide-${index}`} className="w-full flex-shrink-0">
+                                <div className="w-full h-[200px] bg-gray-100 overflow-hidden">
+                                    <a
+                                        href={slide.redirectUrl || "#"}
+                                        onClick={(e) => {
+                                            if (!slide.redirectUrl) e.preventDefault();
+                                        }}
+                                    >
+                                        <img
+                                            src={getImageUrl(slide.url)}
+                                            alt={slide.title || `slide-${index}`}
+                                            className="w-full h-full object-cover"
+                                            draggable="false"
+                                        />
+                                    </a>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-
-                    {/* Next Image (Right Peek) */}
-                    <div
-                        className="absolute right-0 h-64 w-1/4 cursor-pointer transition-all duration-700 ease-out hover:scale-105"
-                        style={{
-                            transform: 'translateX(-10%) scale(0.85)',
-                            opacity: 0.6,
-                            zIndex: 1
-                        }}
-                        onClick={handleNext}
-                    >
-                        {(() => {
-                            const slideData = getSlideData(currentIndex + 1, carouselPcData);
-                            return slideData ? (
-                                <img
-                                    key={`next-${currentIndex}`}
-                                    src={getImageUrl(slideData.url)}
-                                    alt="Next"
-                                    className="w-full h-full object-cover rounded-2xl shadow-lg transition-all duration-700 ease-out"
-                                />
-                            ) : null;
-                        })()}
-                    </div>
-
-                    {/* Left Arrow */}
-                    <button
-                        onClick={handlePrevious}
-                        className="absolute left-4 z-20 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 transition-all duration-300 hover:scale-110"
-                        aria-label="Previous slide"
-                    >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-
-                    {/* Right Arrow */}
-                    <button
-                        onClick={handleNext}
-                        className="absolute right-4 z-20 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 transition-all duration-300 hover:scale-110"
-                        aria-label="Next slide"
-                    >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
                 </div>
 
-                {/* Indicator Dots */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-                    {carouselPcData.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => goToSlide(index)}
-                            className={`transition-all duration-300 rounded-full ${index === currentIndex
-                                ? "w-8 h-3 bg-purple-500"
-                                : "w-3 h-3 bg-white/50 hover:bg-white/80"
-                                }`}
-                            aria-label={`Go to slide ${index + 1}`}
-                        />
-                    ))}
-                </div>
-            </div>
-
-            {/* Mobile Carousel - With Navigation */}
-            <div
-                className="block md:hidden relative h-48 rounded-2xl overflow-hidden transition-opacity duration-700 ease-out"
-                style={{
-                    opacity: isTransitioning ? 0 : 1
-                }}
-            >
-                {(() => {
-                    const slideData = getSlideData(currentIndex, carouselMbData);
-                    return slideData ? (
-                        <a
-                            key={`mobile-${currentIndex}`}
-                            href={slideData.redirectUrl || "#"}
-                            onClick={(e) => {
-                                if (!slideData.redirectUrl) e.preventDefault();
-                            }}
-                            className="block w-full h-full transition-all duration-700 ease-out"
-                            style={{
-                                transform: isTransitioning ? 'scale(0.98)' : 'scale(1)'
-                            }}
-                        >
-                            <img
-                                src={getImageUrl(slideData.url)}
-                                alt={slideData.title || `Mobile Slide ${currentIndex + 1}`}
-                                className="w-full h-full object-cover rounded-2xl"
-                            />
-                        </a>
-                    ) : null;
-                })()}
-
-                {/* Mobile Left Arrow */}
+                {/* Mobile Navigation Arrows */}
                 <button
                     onClick={handlePrevious}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-300"
-                    aria-label="Previous slide"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-2 shadow-lg z-10 bg-gray-800/90 hover:bg-gray-800"
+                    aria-label="Previous"
+                    disabled={isTransitioning}
                 >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 320 512">
+                        <path d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z" />
                     </svg>
                 </button>
 
-                {/* Mobile Right Arrow */}
                 <button
                     onClick={handleNext}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-300"
-                    aria-label="Next slide"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-2 shadow-lg z-10 bg-gray-800/90 hover:bg-gray-800"
+                    aria-label="Next"
+                    disabled={isTransitioning}
                 >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 320 512">
+                        <path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" />
+                    </svg>
+                </button>
+            </div>
+
+            {/* Desktop 3D Carousel */}
+            <div className="hidden md:block relative w-full max-w-5xl mx-auto">
+                <div
+                    className="relative h-[400px] lg:h-[280px] w-full"
+                    style={{
+                        perspective: '1500px',
+                        perspectiveOrigin: '50% 50%'
+                    }}
+                >
+                    <div
+                        className="relative w-full h-full"
+                        style={{ transformStyle: 'preserve-3d' }}
+                    >
+                        {carouselPcData.map((slide, index) => (
+                            <div
+                                key={`desktop-slide-${index}`}
+                                className="absolute inset-0 flex items-center justify-center cursor-pointer"
+                                style={{
+                                    ...getSlideStyle(index),
+                                    transformOrigin: 'center center 0px',
+                                    willChange: 'transform, opacity'
+                                }}
+                                onClick={getClickHandler(index)}
+                            >
+                                <div className="w-4/5 h-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20">
+                                    <a
+                                        href={slide.redirectUrl || "#"}
+                                        onClick={(e) => {
+                                            if (!slide.redirectUrl) e.preventDefault();
+                                        }}
+                                    >
+                                        <img
+                                            src={getImageUrl(slide.url)}
+                                            alt={slide.title || `slide-${index}`}
+                                            className="w-full h-full object-cover"
+                                            draggable="false"
+                                        />
+                                    </a>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Desktop Navigation Arrows */}
+                <button
+                    onClick={handlePrevious}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-all duration-200 z-20 group"
+                    aria-label="Previous"
+                    disabled={isTransitioning}
+                >
+                    <svg className="text-gray-800 text-xl group-hover:text-purple-600 transition-colors w-6 h-6" fill="currentColor" viewBox="0 0 320 512">
+                        <path d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z" />
                     </svg>
                 </button>
 
-                {/* Mobile Navigation Dots */}
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-                    {carouselMbData.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => goToSlide(index)}
-                            className={`transition-all duration-300 rounded-full ${index === currentIndex
-                                ? "w-6 h-2 bg-purple-500"
-                                : "w-2 h-2 bg-white/50"
-                                }`}
-                            aria-label={`Go to slide ${index + 1}`}
-                        />
-                    ))}
-                </div>
+                <button
+                    onClick={handleNext}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-all duration-200 z-20 group"
+                    aria-label="Next"
+                    disabled={isTransitioning}
+                >
+                    <svg className="text-gray-800 text-xl group-hover:text-purple-600 transition-colors w-6 h-6" fill="currentColor" viewBox="0 0 320 512">
+                        <path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" />
+                    </svg>
+                </button>
+            </div>
+
+            {/* Navigation Dots */}
+            <div className="flex justify-center gap-2 mt-2">
+                {carouselPcData.map((_, index) => (
+                    <button
+                        key={`dot-${index}`}
+                        onClick={() => goToSlide(index)}
+                        className={`rounded-full transition-all duration-300 ${index === currentIndex
+                                ? "bg-gradient-to-r from-purple-600 to-indigo-600 w-8 h-2.5"
+                                : "bg-gray-300 hover:bg-gray-400 w-2.5 h-2.5"
+                            }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                        disabled={isTransitioning}
+                    />
+                ))}
             </div>
         </div>
     );
