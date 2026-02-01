@@ -27,6 +27,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "dev": "node --env-file=.env.development index.js",
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

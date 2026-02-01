@@ -3,9 +3,12 @@ import { json } from "react-router-dom";
 
 export const VariableContext = createContext({});
 export const VariableProvider = ({ children }) => {
-  // const host = "http://localhost:8080";
-  // const host = "https://neostore.in"; // Use this after DNS is configured
-  const host = "/api"; // Works with both IP and domain via Nginx proxy
+  // Automatically detect environment - no manual switching needed!
+  const isDevelopment = typeof window !== 'undefined' &&
+    (window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1');
+
+  const host = isDevelopment ? "http://localhost:8080" : "/api";
   const imageUrl = "../../assets/"
 
   const [input1, setInput1] = useState(null);
