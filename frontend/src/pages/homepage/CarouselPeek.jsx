@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { VariableContext } from "../../context/VariableContext";
 
 const CarouselPeek = ({ data }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
+
+    // Get backend host URL for images
+    const { host } = useContext(VariableContext);
 
     // Destructure CarouselMb and CarouselPc from data prop
     const { CarouselMb, CarouselPc } = data || {};
@@ -31,11 +35,6 @@ const CarouselPeek = ({ data }) => {
     const carouselMbData = (CarouselMb && CarouselMb.length > 0) ? CarouselMb : testImages;
 
     const totalSlides = carouselPcData?.length || 0;
-
-    // Early return if no valid carousel data
-    if (!carouselPcData || !carouselMbData || totalSlides === 0) {
-        return null;
-    }
 
     // Auto-play functionality
     useEffect(() => {
@@ -92,6 +91,7 @@ const CarouselPeek = ({ data }) => {
                             const slideData = getSlideData(currentIndex - 1, carouselPcData);
                             return slideData ? (
                                 <img
+                                    key={`prev-${currentIndex}`}
                                     src={getImageUrl(slideData.url)}
                                     alt="Previous"
                                     className="w-full h-full object-cover rounded-2xl shadow-lg"
@@ -109,6 +109,7 @@ const CarouselPeek = ({ data }) => {
                             const slideData = getSlideData(currentIndex, carouselPcData);
                             return slideData ? (
                                 <a
+                                    key={`current-${currentIndex}`}
                                     href={slideData.redirectUrl || "#"}
                                     onClick={(e) => {
                                         if (!slideData.redirectUrl) e.preventDefault();
@@ -139,6 +140,7 @@ const CarouselPeek = ({ data }) => {
                             const slideData = getSlideData(currentIndex + 1, carouselPcData);
                             return slideData ? (
                                 <img
+                                    key={`next-${currentIndex}`}
                                     src={getImageUrl(slideData.url)}
                                     alt="Next"
                                     className="w-full h-full object-cover rounded-2xl shadow-lg"
@@ -192,6 +194,7 @@ const CarouselPeek = ({ data }) => {
                     const slideData = getSlideData(currentIndex, carouselMbData);
                     return slideData ? (
                         <a
+                            key={`mobile-${currentIndex}`}
                             href={slideData.redirectUrl || "#"}
                             onClick={(e) => {
                                 if (!slideData.redirectUrl) e.preventDefault();

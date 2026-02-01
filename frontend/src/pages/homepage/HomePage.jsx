@@ -20,12 +20,14 @@ const HomePage = () => {
   const { getHomeImages, CarouselMb, CarouselPc, Popup } = useGetHomeImages();
 
 
-  useEffect(() => {
-    async function fetch() {
-      const data = await getHomeImages();
-    }
-    fetch();
-  }, []);
+  // Skip API call in development - use test images in CarouselPeek instead
+  // Uncomment this in production to load real carousel data from backend
+  // useEffect(() => {
+  //   async function fetch() {
+  //     const data = await getHomeImages();
+  //   }
+  //   fetch();
+  // }, []);
 
 
   useEffect(() => {
