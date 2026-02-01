@@ -131,7 +131,7 @@ const CarouselPeek = ({ data }) => {
                     >
                         {carouselMbData.map((slide, index) => (
                             <div key={`mobile-slide-${index}`} className="w-full flex-shrink-0">
-                                <div className="w-full h-[200px] bg-gray-100 overflow-hidden">
+                                <div className="w-full h-[280px] bg-gray-100 overflow-hidden">
                                     <a
                                         href={slide.redirectUrl || "#"}
                                         onClick={(e) => {
@@ -178,7 +178,7 @@ const CarouselPeek = ({ data }) => {
             {/* Desktop 3D Carousel */}
             <div className="hidden md:block relative w-full max-w-5xl mx-auto">
                 <div
-                    className="relative h-[400px] lg:h-[280px] w-full"
+                    className="relative h-[450px] lg:h-[380px] w-full"
                     style={{
                         perspective: '1500px',
                         perspectiveOrigin: '50% 50%'
@@ -250,8 +250,8 @@ const CarouselPeek = ({ data }) => {
                         key={`dot-${index}`}
                         onClick={() => goToSlide(index)}
                         className={`rounded-full transition-all duration-300 ${index === currentIndex
-                                ? "bg-gradient-to-r from-purple-600 to-indigo-600 w-8 h-2.5"
-                                : "bg-gray-300 hover:bg-gray-400 w-2.5 h-2.5"
+                                ? "bg-gradient-to-r from-purple-500 via-purple-600 to-blue-600 w-8 h-2.5 shadow-lg"
+                                : "bg-gray-300 hover:bg-purple-300 w-2.5 h-2.5"
                             }`}
                         aria-label={`Go to slide ${index + 1}`}
                         disabled={isTransitioning}
