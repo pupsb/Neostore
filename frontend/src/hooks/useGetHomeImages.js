@@ -4,8 +4,8 @@ import { VariableContext } from "../context/VariableContext";
 export const useGetHomeImages = () => {
 
   const [isLoading, setIsLoading] = useState(null);
-  const [CarouselMb, setCarouselMb] = useState([]);
-  const [CarouselPc, setCarouselPc] = useState([]);
+  const [CarouselMb, setCarouselMb] = useState(null);
+  const [CarouselPc, setCarouselPc] = useState(null);
   const [Popup, setPopup] = useState([]);
 
   const { host } = useContext(VariableContext);
@@ -24,13 +24,21 @@ export const useGetHomeImages = () => {
       const data = await response.json();
       // console.log(data);
       
-      setCarouselMb(data.CarouselMb);
-      setCarouselPc(data.CarouselPc)
-      setPopup(data.Popup);
+      // Only update state if we got valid data
+      if (data.CarouselMb && data.CarouselMb.length > 0) {
+        setCarouselMb(data.CarouselMb);
+      }
+      if (data.CarouselPc && data.CarouselPc.length > 0) {
+        setCarouselPc(data.CarouselPc);
+      }
+      if (data.Popup) {
+        setPopup(data.Popup);
+      }
 
       setIsLoading(false);
     } catch (err) {
       console.log(err.message);
+      setIsLoading(false);
     }
   };
 

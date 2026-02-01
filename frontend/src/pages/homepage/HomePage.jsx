@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardsScroller from "../../components/card/CardsScroller";
 import Carousel from "./Carousel";
+import CarouselPeek from "./CarouselPeek";
 import CardsGrid from "../../components/card/CardsGrid";
 import { useGetProducts } from "../../hooks/useGetProducts";
 import ProductSkeletons from "../../components/skeletons/ProductSkeletons";
@@ -53,8 +54,7 @@ const HomePage = () => {
 
       {/* Main Content */}
       <div className="mt-2 lg:mx-24 mx-4 flex flex-col gap-3 ">
-        {CarouselMb && CarouselMb.length > 0 && CarouselPc && CarouselPc.length > 0 && <Carousel data={{ CarouselMb, CarouselPc }} />}
-        {/* <Carousel /> */}
+        <CarouselPeek data={{ CarouselMb, CarouselPc }} />
 
         <div className="mt-5 flex flex-col gap-4">
 
