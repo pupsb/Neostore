@@ -37,7 +37,9 @@ const CarouselPeek = ({ data }) => {
         if (totalSlides <= 1) return;
 
         const interval = setInterval(() => {
+            setIsTransitioning(true);
             setCurrentIndex((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
+            setTimeout(() => setIsTransitioning(false), 600);
         }, 5000);
 
         return () => clearInterval(interval);
