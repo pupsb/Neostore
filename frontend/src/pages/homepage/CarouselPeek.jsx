@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const CarouselPeek = (data) => {
+const CarouselPeek = ({ data }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
 

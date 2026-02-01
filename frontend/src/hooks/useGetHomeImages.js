@@ -22,7 +22,6 @@ export const useGetHomeImages = () => {
         });
 
       const data = await response.json();
-      // console.log(data);
       
       // Only update state if we got valid data
       if (data.CarouselMb && data.CarouselMb.length > 0) {
