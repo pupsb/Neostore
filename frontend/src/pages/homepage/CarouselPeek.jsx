@@ -27,13 +27,20 @@ const CarouselPeek = (data) => {
     ];
 
     // Use test images if carousel data is not available (development mode)
-    const carouselPcData = CarouselPc && CarouselPc.length > 0 ? CarouselPc : testImages;
-    const carouselMbData = CarouselMb && CarouselMb.length > 0 ? CarouselMb : testImages;
+    const carouselPcData = (CarouselPc && CarouselPc.length > 0) ? CarouselPc : testImages;
+    const carouselMbData = (CarouselMb && CarouselMb.length > 0) ? CarouselMb : testImages;
 
-    const totalSlides = carouselPcData.length;
+    const totalSlides = carouselPcData?.length || 0;
+
+    // Early return if no valid carousel data
+    if (!carouselPcData || !carouselMbData || totalSlides === 0) {
+        return null;
+    }
 
     // Auto-play functionality
     useEffect(() => {
+        if (totalSlides <= 1) return; // Don't auto-play if only 1 slide
+
         const interval = setInterval(() => {
             setCurrentIndex((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
         }, 5000); // Change slide every 5 seconds
@@ -59,6 +66,13 @@ const CarouselPeek = (data) => {
     // Helper to get image URL
     const getImageUrl = (imagePath) => `${imagePath}`;
 
+    // Safe array access helper
+    const getSlideData = (index, dataArray) => {
+        if (!dataArray || dataArray.length === 0) return null;
+        const safeIndex = ((index % dataArray.length) + dataArray.length) % dataArray.length;
+        return dataArray[safeIndex];
+    };
+
     return (
         <div className="relative w-full mt-2">
             {/* Desktop Carousel - Peek Effect */}
@@ -74,13 +88,16 @@ const CarouselPeek = (data) => {
                         }}
                         onClick={handlePrevious}
                     >
-                        {carouselPcData[(currentIndex - 1 + totalSlides) % totalSlides] && (
-                            <img
-                                src={getImageUrl(carouselPcData[(currentIndex - 1 + totalSlides) % totalSlides].url)}
-                                alt="Previous"
-                                className="w-full h-full object-cover rounded-2xl shadow-lg"
-                            />
-                        )}
+                        {(() => {
+                            const slideData = getSlideData(currentIndex - 1, carouselPcData);
+                            return slideData ? (
+                                <img
+                                    src={getImageUrl(slideData.url)}
+                                    alt="Previous"
+                                    className="w-full h-full object-cover rounded-2xl shadow-lg"
+                                />
+                            ) : null;
+                        })()}
                     </div>
 
                     {/* Center Image (Active) */}
@@ -88,21 +105,24 @@ const CarouselPeek = (data) => {
                         className="relative h-80 w-1/2 transition-all duration-600 ease-in-out"
                         style={{ zIndex: 10 }}
                     >
-                        {carouselPcData[currentIndex] && (
-                            <a
-                                href={carouselPcData[currentIndex].redirectUrl || "#"}
-                                onClick={(e) => {
-                                    if (!carouselPcData[currentIndex].redirectUrl) e.preventDefault();
-                                }}
-                                className="block w-full h-full"
-                            >
-                                <img
-                                    src={getImageUrl(carouselPcData[currentIndex].url)}
-                                    alt={carouselPcData[currentIndex]?.title || `Slide ${currentIndex + 1}`}
-                                    className="w-full h-full object-cover rounded-2xl shadow-2xl"
-                                />
-                            </a>
-                        )}
+                        {(() => {
+                            const slideData = getSlideData(currentIndex, carouselPcData);
+                            return slideData ? (
+                                <a
+                                    href={slideData.redirectUrl || "#"}
+                                    onClick={(e) => {
+                                        if (!slideData.redirectUrl) e.preventDefault();
+                                    }}
+                                    className="block w-full h-full"
+                                >
+                                    <img
+                                        src={getImageUrl(slideData.url)}
+                                        alt={slideData.title || `Slide ${currentIndex + 1}`}
+                                        className="w-full h-full object-cover rounded-2xl shadow-2xl"
+                                    />
+                                </a>
+                            ) : null;
+                        })()}
                     </div>
 
                     {/* Next Image (Right Peek) */}
@@ -115,13 +135,16 @@ const CarouselPeek = (data) => {
                         }}
                         onClick={handleNext}
                     >
-                        {carouselPcData[(currentIndex + 1) % totalSlides] && (
-                            <img
-                                src={getImageUrl(carouselPcData[(currentIndex + 1) % totalSlides].url)}
-                                alt="Next"
-                                className="w-full h-full object-cover rounded-2xl shadow-lg"
-                            />
-                        )}
+                        {(() => {
+                            const slideData = getSlideData(currentIndex + 1, carouselPcData);
+                            return slideData ? (
+                                <img
+                                    src={getImageUrl(slideData.url)}
+                                    alt="Next"
+                                    className="w-full h-full object-cover rounded-2xl shadow-lg"
+                                />
+                            ) : null;
+                        })()}
                     </div>
 
                     {/* Left Arrow */}
@@ -165,21 +188,24 @@ const CarouselPeek = (data) => {
 
             {/* Mobile Carousel - Simple */}
             <div className="block md:hidden relative h-48 rounded-2xl overflow-hidden">
-                {carouselMbData[currentIndex] && (
-                    <a
-                        href={carouselMbData[currentIndex].redirectUrl || "#"}
-                        onClick={(e) => {
-                            if (!carouselMbData[currentIndex].redirectUrl) e.preventDefault();
-                        }}
-                        className="block w-full h-full"
-                    >
-                        <img
-                            src={getImageUrl(carouselMbData[currentIndex].url)}
-                            alt={carouselMbData[currentIndex]?.title || `Mobile Slide ${currentIndex + 1}`}
-                            className="w-full h-full object-cover"
-                        />
-                    </a>
-                )}
+                {(() => {
+                    const slideData = getSlideData(currentIndex, carouselMbData);
+                    return slideData ? (
+                        <a
+                            href={slideData.redirectUrl || "#"}
+                            onClick={(e) => {
+                                if (!slideData.redirectUrl) e.preventDefault();
+                            }}
+                            className="block w-full h-full"
+                        >
+                            <img
+                                src={getImageUrl(slideData.url)}
+                                alt={slideData.title || `Mobile Slide ${currentIndex + 1}`}
+                                className="w-full h-full object-cover"
+                            />
+                        </a>
+                    ) : null;
+                })()}
 
                 {/* Mobile Navigation Dots */}
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
