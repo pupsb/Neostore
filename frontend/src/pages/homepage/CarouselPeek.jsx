@@ -74,11 +74,13 @@ const CarouselPeek = (data) => {
                         }}
                         onClick={handlePrevious}
                     >
-                        <img
-                            src={getImageUrl(carouselPcData[(currentIndex - 1 + totalSlides) % totalSlides].url)}
-                            alt="Previous"
-                            className="w-full h-full object-cover rounded-2xl shadow-lg"
-                        />
+                        {carouselPcData[(currentIndex - 1 + totalSlides) % totalSlides] && (
+                            <img
+                                src={getImageUrl(carouselPcData[(currentIndex - 1 + totalSlides) % totalSlides].url)}
+                                alt="Previous"
+                                className="w-full h-full object-cover rounded-2xl shadow-lg"
+                            />
+                        )}
                     </div>
 
                     {/* Center Image (Active) */}
@@ -86,19 +88,21 @@ const CarouselPeek = (data) => {
                         className="relative h-80 w-1/2 transition-all duration-600 ease-in-out"
                         style={{ zIndex: 10 }}
                     >
-                        <a
-                            href={carouselPcData[currentIndex].redirectUrl || "#"}
-                            onClick={(e) => {
-                                if (!carouselPcData[currentIndex].redirectUrl) e.preventDefault();
-                            }}
-                            className="block w-full h-full"
-                        >
-                            <img
-                                src={getImageUrl(carouselPcData[currentIndex].url)}
-                                alt={carouselPcData[currentIndex]?.title || `Slide ${currentIndex + 1}`}
-                                className="w-full h-full object-cover rounded-2xl shadow-2xl"
-                            />
-                        </a>
+                        {carouselPcData[currentIndex] && (
+                            <a
+                                href={carouselPcData[currentIndex].redirectUrl || "#"}
+                                onClick={(e) => {
+                                    if (!carouselPcData[currentIndex].redirectUrl) e.preventDefault();
+                                }}
+                                className="block w-full h-full"
+                            >
+                                <img
+                                    src={getImageUrl(carouselPcData[currentIndex].url)}
+                                    alt={carouselPcData[currentIndex]?.title || `Slide ${currentIndex + 1}`}
+                                    className="w-full h-full object-cover rounded-2xl shadow-2xl"
+                                />
+                            </a>
+                        )}
                     </div>
 
                     {/* Next Image (Right Peek) */}
@@ -111,11 +115,13 @@ const CarouselPeek = (data) => {
                         }}
                         onClick={handleNext}
                     >
-                        <img
-                            src={getImageUrl(carouselPcData[(currentIndex + 1) % totalSlides].url)}
-                            alt="Next"
-                            className="w-full h-full object-cover rounded-2xl shadow-lg"
-                        />
+                        {carouselPcData[(currentIndex + 1) % totalSlides] && (
+                            <img
+                                src={getImageUrl(carouselPcData[(currentIndex + 1) % totalSlides].url)}
+                                alt="Next"
+                                className="w-full h-full object-cover rounded-2xl shadow-lg"
+                            />
+                        )}
                     </div>
 
                     {/* Left Arrow */}
@@ -159,19 +165,21 @@ const CarouselPeek = (data) => {
 
             {/* Mobile Carousel - Simple */}
             <div className="block md:hidden relative h-48 rounded-2xl overflow-hidden">
-                <a
-                    href={carouselMbData[currentIndex].redirectUrl || "#"}
-                    onClick={(e) => {
-                        if (!carouselMbData[currentIndex].redirectUrl) e.preventDefault();
-                    }}
-                    className="block w-full h-full"
-                >
-                    <img
-                        src={getImageUrl(carouselMbData[currentIndex].url)}
-                        alt={carouselMbData[currentIndex]?.title || `Mobile Slide ${currentIndex + 1}`}
-                        className="w-full h-full object-cover"
-                    />
-                </a>
+                {carouselMbData[currentIndex] && (
+                    <a
+                        href={carouselMbData[currentIndex].redirectUrl || "#"}
+                        onClick={(e) => {
+                            if (!carouselMbData[currentIndex].redirectUrl) e.preventDefault();
+                        }}
+                        className="block w-full h-full"
+                    >
+                        <img
+                            src={getImageUrl(carouselMbData[currentIndex].url)}
+                            alt={carouselMbData[currentIndex]?.title || `Mobile Slide ${currentIndex + 1}`}
+                            className="w-full h-full object-cover"
+                        />
+                    </a>
+                )}
 
                 {/* Mobile Navigation Dots */}
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
@@ -188,7 +196,7 @@ const CarouselPeek = (data) => {
                     ))}
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
