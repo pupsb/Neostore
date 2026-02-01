@@ -25,8 +25,8 @@ function urlEncode(data) {
 }
 
 /**
- * Create Order API - ExPay3
- * Creates a new payment order with ExPay3 gateway
+ * Create Order API - ExGateway
+ * Creates a new payment order with ExGateway gateway
  */
 export const createExpayOrder = async (req, res) => {
   try {
@@ -63,7 +63,7 @@ export const createExpayOrder = async (req, res) => {
     const uniqueId = generateUniqueId();
     const itemidarray = item.itemidarray;
 
-    // Prepare form-encoded payload for ExPay3
+    // Prepare form-encoded payload for ExGateway
     const payload = {
       customer_mobile: userInformation.mobilenumber,
       user_token: process.env.EXPAY_USER_TOKEN,
@@ -74,8 +74,8 @@ export const createExpayOrder = async (req, res) => {
       remark2: `User: ${userInformation.email}`,
     };
 
-    // Call ExPay3 Create Order API
-    const response = await fetch(`https://expay3.in/api/create-order`, {
+    // Call ExGateway Create Order API
+    const response = await fetch(`https://exgateway.com/api/create-order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -125,21 +125,21 @@ export const createExpayOrder = async (req, res) => {
 };
 
 /**
- * Check Order Status API - ExPay3
+ * Check Order Status API - ExGateway
  * Checks the status of an order and processes it accordingly
  */
 export const checkExpayOrderStatus = async (req, res) => {
   try {
     const { order_id, date } = req.body;
 
-    // Prepare form-encoded payload for ExPay3
+    // Prepare form-encoded payload for ExGateway
     const payload = {
       user_token: process.env.EXPAY_USER_TOKEN,
       order_id: order_id,
     };
 
-    // Call ExPay3 Check Order Status API
-    const response = await fetch(`https://expay3.in/api/check-order-status`, {
+    // Call ExGateway Check Order Status API
+    const response = await fetch(`https://exgateway.com/api/check-order-status`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

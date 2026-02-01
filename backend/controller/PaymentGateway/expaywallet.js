@@ -17,8 +17,8 @@ function urlEncode(data) {
 }
 
 /**
- * ExPay3 Wallet Top-Up
- * Creates a wallet top-up order via ExPay3 gateway
+ * ExGateway Wallet Top-Up
+ * Creates a wallet top-up order via ExGateway gateway
  */
 export const expayTopUp = async (req, res) => {
   try {
@@ -47,7 +47,7 @@ export const expayTopUp = async (req, res) => {
       return res.status(404).json({ error: "Wallet not found" });
     }
 
-    // Prepare form-encoded payload for ExPay3
+    // Prepare form-encoded payload for ExGateway
     const payload = {
       customer_mobile: user.mobilenumber,
       user_token: process.env.EXPAY_USER_TOKEN,
@@ -58,8 +58,8 @@ export const expayTopUp = async (req, res) => {
       remark2: `User: ${user.email}`,
     };
 
-    // Call ExPay3 Create Order API
-    const response = await fetch(`https://expay3.in/api/create-order`, {
+    // Call ExGateway Create Order API
+    const response = await fetch(`https://exgateway.com/api/create-order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -95,7 +95,7 @@ export const expayTopUp = async (req, res) => {
 };
 
 /**
- * ExPay3 Transaction Status
+ * ExGateway Transaction Status
  * Checks the status of a wallet top-up transaction
  */
 export const expayTxnStatus = async (req, res) => {
@@ -106,14 +106,14 @@ export const expayTxnStatus = async (req, res) => {
       return res.status(400).json({ error: "Transaction ID is required" });
     }
 
-    // Prepare form-encoded payload for ExPay3
+    // Prepare form-encoded payload for ExGateway
     const payload = {
       user_token: process.env.EXPAY_USER_TOKEN,
       order_id: client_txn_id,
     };
 
-    // Call ExPay3 Check Order Status API
-    const response = await fetch(`https://expay3.in/api/check-order-status`, {
+    // Call ExGateway Check Order Status API
+    const response = await fetch(`https://exgateway.com/api/check-order-status`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
