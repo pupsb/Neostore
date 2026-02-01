@@ -37,11 +37,11 @@ const CarouselPeek = ({ data }) => {
         if (totalSlides <= 1) return;
 
         const interval = setInterval(() => {
-            handleNext();
+            setCurrentIndex((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [currentIndex, totalSlides]);
+    }, [totalSlides]);
 
     const handlePrevious = () => {
         if (isTransitioning) return;
@@ -250,8 +250,8 @@ const CarouselPeek = ({ data }) => {
                         key={`dot-${index}`}
                         onClick={() => goToSlide(index)}
                         className={`rounded-full transition-all duration-300 ${index === currentIndex
-                                ? "bg-gradient-to-r from-purple-500 via-purple-600 to-blue-600 w-8 h-2.5 shadow-lg"
-                                : "bg-gray-300 hover:bg-purple-300 w-2.5 h-2.5"
+                            ? "bg-gradient-to-r from-purple-500 via-purple-600 to-blue-600 w-8 h-2.5 shadow-lg"
+                            : "bg-gray-300 hover:bg-purple-300 w-2.5 h-2.5"
                             }`}
                         aria-label={`Go to slide ${index + 1}`}
                         disabled={isTransitioning}
