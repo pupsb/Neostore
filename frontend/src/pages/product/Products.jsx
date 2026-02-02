@@ -34,11 +34,10 @@ const Products = () => {
           <button
             key={type}
             onClick={() => setFilterType(type)}
-            className={`px-4 py-2 rounded-lg border ${
-              filterType === type
-                ? 'bg-[#E11D48] text-white'
-                : 'bg-gray-200 text-black'
-            }`}
+            className={`px-4 py-2 rounded-lg border transition-colors ${filterType === type
+                ? 'bg-[#E11D48] dark:bg-dark-accent-primary text-white dark:text-dark-bg-primary border-[#E11D48] dark:border-dark-accent-primary'
+                : 'bg-gray-200 dark:bg-dark-bg-card text-black dark:text-dark-text-primary border-gray-300 dark:border-dark-border hover:bg-gray-300 dark:hover:bg-dark-bg-hover'
+              }`}
           >
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </button>
@@ -57,7 +56,7 @@ const Products = () => {
           ))}
         </ul>
       ) : (
-        <div className="text-center text-gray-500 mt-10">No items found</div>
+        <div className="text-center text-gray-500 dark:text-dark-text-secondary mt-10">No items found</div>
       )}
     </div>
   ) : (

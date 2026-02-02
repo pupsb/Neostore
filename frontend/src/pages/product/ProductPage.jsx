@@ -12,9 +12,9 @@ import Banner from './Banner'
 const ProductPage = () => {
 
   const { _id } = useParams();
-  const { productPageLoading} = useContext(VariableContext);
-  const { getProduct} = useGetProduct();
-  const { isLoading, getItems} = useGetItems();
+  const { productPageLoading } = useContext(VariableContext);
+  const { getProduct } = useGetProduct();
+  const { isLoading, getItems } = useGetItems();
 
   useEffect(() => {
     async function fetch() {
@@ -33,21 +33,21 @@ const ProductPage = () => {
   }, []);
 
   return (
-    <div className='mt-[2rem] md:mx-9 mx-5 '>
-        <>
-          <Banner />
-          {/* for mobile view */}
-          {/* <div className=' block md:hidden'><UserIDForm /></div> */}
-          <div className='flex md:flex-row flex-col gap-3'><Products />
+    <div className='mt-[2rem] md:mx-9 mx-5 min-h-screen bg-white dark:bg-dark-bg-primary transition-colors duration-300'>
+      <>
+        <Banner />
+        {/* for mobile view */}
+        {/* <div className=' block md:hidden'><UserIDForm /></div> */}
+        <div className='flex md:flex-row flex-col gap-3'><Products />
 
           <div className='flex flex-col  md:w-[50%] gap-5'>
             {/* for pc view */}
             <div className='block'><UserIDForm /></div>
             <Payments />
           </div>
-          </div>
-        </>
-        {/* : <div className='flex w-full justify-center items-center'><Spinner /></div> */}
+        </div>
+      </>
+      {/* : <div className='flex w-full justify-center items-center'><Spinner /></div> */}
     </div>
 
 

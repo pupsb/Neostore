@@ -23,14 +23,14 @@ const Banner = () => {
               }} />
           </div>
           <div className='flex flex-col'>
-            <div className='text-[#424242] font-[700] md:text-[2rem]  text-[1.5rem]'>
+            <div className='text-[#424242] dark:text-dark-text-primary font-[700] md:text-[2rem]  text-[1.5rem]'>
               {product && (product?.name)}
             </div>
-            <div className='text-[#E11D48] font-[700] lg:text-[1.3rem] text-[1.1rem] '>
+            <div className='text-[#E11D48] dark:text-dark-accent-primary font-[700] lg:text-[1.3rem] text-[1.1rem] '>
 
               {(product?.isApi) ? "Instant Delivery" : "Delivery within 30 mins"}
             </div>
-            <div className='text-[#424242] font-[700] text-[1rem] md:text-[1.1rem] lg:mt-5'>
+            <div className='text-[#424242] dark:text-dark-text-secondary font-[700] text-[1rem] md:text-[1.1rem] lg:mt-5'>
               Note : {product?.importantnote}
 
             </div>

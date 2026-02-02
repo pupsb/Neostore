@@ -47,15 +47,15 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-100 dark:bg-dark-bg-primary py-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Profile */}
           <div className="lg:col-span-1">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
+            <div className="bg-white dark:bg-dark-bg-card rounded-2xl shadow-xl p-6 transition-colors duration-300">
               <div className="flex flex-col items-center">
-                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-blue-500">
+                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-blue-500 dark:border-dark-accent-primary">
                   <img src={defaultpp} alt="Profile" className="w-full h-full object-cover" />
                 </div>
 
@@ -98,7 +98,7 @@ const Dashboard = () => {
                       }
                       setIsEditing(!isEditing);
                     }}
-                    className="mt-6 w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="mt-6 w-full flex items-center justify-center px-4 py-2 bg-blue-600 dark:bg-dark-accent-primary text-white dark:text-dark-bg-primary rounded-lg hover:bg-blue-700 dark:hover:bg-dark-accent-secondary transition-colors"
                   >
                     {isEditing ? (
                       <>
@@ -121,11 +121,11 @@ const Dashboard = () => {
             <Balance />
 
             {/* Order Stats */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
+            <div className="bg-white dark:bg-dark-bg-card rounded-2xl shadow-xl p-6 transition-colors duration-300">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
-                  <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                    <FaBox className="text-blue-600 dark:text-blue-400 text-xl" />
+                  <div className="p-2 bg-blue-100 dark:bg-dark-bg-hover rounded-lg">
+                    <FaBox className="text-blue-600 dark:text-dark-accent-primary text-xl" />
                   </div>
                   <h3 className="ml-3 text-xl font-semibold text-gray-900 dark:text-white">
                     Order Statistics
@@ -142,17 +142,17 @@ const Dashboard = () => {
               </div>
 
               <div className="grid grid-cols-3 gap-6">
-                <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 text-center">
+                <div className="bg-gray-50 dark:bg-dark-bg-secondary rounded-xl p-4 text-center">
                   <div className="text-3xl font-bold text-gray-900 dark:text-white">{orderStats?.total_order}</div>
                   <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">Total Orders</div>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 text-center">
-                  <div className="text-3xl font-bold text-green-600">{orderStats?.completed}</div>
+                <div className="bg-gray-50 dark:bg-dark-bg-secondary rounded-xl p-4 text-center">
+                  <div className="text-3xl font-bold text-green-600 dark:text-dark-accent-primary">{orderStats?.completed}</div>
                   <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">Completed</div>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 text-center">
+                <div className="bg-gray-50 dark:bg-dark-bg-secondary rounded-xl p-4 text-center">
                   <div className="text-3xl font-bold text-red-600">{orderStats?.refunded}</div>
                   <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">Refunded</div>
                 </div>

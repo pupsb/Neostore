@@ -34,14 +34,14 @@ const Payments = () => {
   useEffect(() => {
     if (balance?.balance !== undefined) {
       setUserBalance(balance.balance);
-      setLoadingBalance(false); 
+      setLoadingBalance(false);
     }
-  }, [balance]); 
+  }, [balance]);
 
   const handleSubmit = async () => {
     const values = {
       itemid: selected.itemid,
-      product_id : product?._id,
+      product_id: product?._id,
       userid: user._id,
       input1,
       input2,
@@ -60,18 +60,18 @@ const Payments = () => {
     setPayment(e.target.value)
   }
   return (
-    <div className="py-[1.5em] px-[2em]  bg-[#FFFFFF] flex flex-col  rounded-[1em] w-full">
+    <div className="py-[1.5em] px-[2em]  bg-[#FFFFFF] dark:bg-dark-bg-card flex flex-col  rounded-[1em] w-full transition-colors duration-300">
       <div className='flex justify-between mb-3'>
-        <div className='text-[#424242] text-[1.4rem] font-[600]'>Total</div>
+        <div className='text-[#424242] dark:text-dark-text-primary text-[1.4rem] font-[600]'>Total</div>
         {/* <div className='text-[1.4rem] font-[600] text-[#00BBFF]'>₹{selected ? selected.discountedprice : "0"}</div> */}
-        <div className='text-[1.4rem] font-[600] text-[#E11D48]'>
+        <div className='text-[1.4rem] font-[600] text-[#E11D48] dark:text-dark-accent-primary'>
           ₹{selected ? (user?.role === 'reseller' ? selected.resellprice : selected.discountedprice) : "0"}
         </div>
       </div>
       <hr className='w-full'></hr>
 
       <div className='mt-7 flex flex-col gap-6'>
-        <div className='text-black text-[1rem] font-[600] '>Payment Methods</div>
+        <div className='text-black dark:text-dark-text-primary text-[1rem] font-[600] '>Payment Methods</div>
         <div className='flex gap-4 '>
           <ul className="grid w-full md:gap-6 gap-3 md:grid-cols-2">
             <li>
@@ -116,7 +116,7 @@ const Payments = () => {
             </button>
           ) : (
             <button
-              className="bg-[#E11D48] hover:[#E11D84] rounded-full p-2.5 text-white font-[600] text-[1.1rem] w-full"
+              className="bg-[#E11D48] dark:bg-dark-accent-primary hover:[#E11D84] dark:hover:bg-dark-accent-secondary rounded-full p-2.5 text-white dark:text-dark-bg-primary font-[600] text-[1.1rem] w-full transition-colors"
               onClick={() =>
                 (selected !== null &&
                   payment !== null &&

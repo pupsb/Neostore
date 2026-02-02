@@ -11,10 +11,40 @@
 body {
   background-color: #F8F9FA;
   font-family: "Rubik", sans-serif;
-  overflow-y: scroll; /* Ensure vertical scrolling is enabled */
-  overflow-x: hidden; /* Disable horizontal scrolling */
+  overflow-y: scroll;
+  /* Ensure vertical scrolling is enabled */
+  overflow-x: hidden;
+  /* Disable horizontal scrolling */
   margin: 0;
   padding: 0;
+  transition: background-color 300ms ease-in-out;
+}
+
+/* Dark mode body styling */
+.dark body {
+  background-color: #0A0E13;
+  color: #FFFFFF;
+}
+
+/* Global dark mode styles for common elements */
+.dark input:not([type="checkbox"]):not([type="radio"]),
+.dark textarea,
+.dark select {
+  background-color: #1A1F2B;
+  color: #FFFFFF;
+  border-color: #2A3040;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #6B7280;
+}
+
+/* Dark mode for modals and  dropdowns */
+.dark .modal,
+.dark .dropdown {
+  background-color: #1A1F2B;
+  border-color: #2A3040;
 }
 
 /* Root container styling */
@@ -24,33 +54,55 @@ body,
 .app {
   height: 100%;
   width: 100%;
-  max-width: 1500px; /* Set max width for the content */
-  margin: 0 auto; /* Center align the content */
+  max-width: 1500px;
+  /* Set max width for the content */
+  margin: 0 auto;
+  /* Center align the content */
 }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 10px; /* Visible scrollbar width */
+  width: 10px;
+  /* Visible scrollbar width */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(#d80b38, #E11D48); /* Gradient color for the scrollbar */
-  border-radius: 5px; /* Rounded edges for the scrollbar thumb */
+  background: linear-gradient(#d80b38, #E11D48);
+  /* Gradient color for the scrollbar */
+  border-radius: 5px;
+  /* Rounded edges for the scrollbar thumb */
 }
 
 ::-webkit-scrollbar-track {
-  background: #f8f9fa; /* Light color for the scrollbar track */
+  background: #f8f9fa;
+  /* Light color for the scrollbar track */
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(#7FBF3D, #B4FF39);
+  /* Neon green gradient */
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #151922;
+  /* Dark track */
 }
 
 /* Media query for screens wider than 762px */
 @media only screen and (min-width: 762px) {
   ::-webkit-scrollbar {
-    width: 5px; /* Ensure the scrollbar is visible */
+    width: 5px;
+    /* Ensure the scrollbar is visible */
   }
 
   ::-webkit-scrollbar-thumb {
     background: linear-gradient(#d80b38, #E11D48);
     border-radius: 5px;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: linear-gradient(#7FBF3D, #B4FF39);
   }
 }
 
@@ -59,6 +111,7 @@ body,
   0% {
     transform: translateX(100%);
   }
+
   100% {
     transform: translateX(-100%);
   }

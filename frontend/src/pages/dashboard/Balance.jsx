@@ -30,7 +30,7 @@ const Balance = () => {
       {/* Balance Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Wallet Balance */}
-        <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 shadow-xl">
+        <div className="bg-gradient-to-br from-blue-600 to-blue-800 dark:from-dark-bg-card dark:to-dark-bg-hover rounded-2xl p-6 shadow-xl transition-colors duration-300">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center">
               <FaWallet className="text-white text-xl" />
@@ -46,14 +46,14 @@ const Balance = () => {
           </div>
           <a
             href="/topup"
-            className="flex items-center justify-center w-full px-4 py-2 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-200"
+            className="flex items-center justify-center w-full px-4 py-2 bg-white dark:bg-dark-accent-primary text-blue-600 dark:text-dark-bg-primary rounded-lg font-semibold hover:bg-blue-50 dark:hover:bg-dark-accent-secondary transition-all duration-200"
           >
             <FaPlusCircle className="mr-2" /> Top Up
           </a>
         </div>
 
         {/* Points Balance */}
-        <div className="bg-gradient-to-br from-purple-600 to-purple-800 rounded-2xl p-6 shadow-xl">
+        <div className="bg-gradient-to-br from-purple-600 to-purple-800 dark:from-dark-bg-card dark:to-dark-bg-hover rounded-2xl p-6 shadow-xl transition-colors duration-300">
           <div className="flex items-center mb-4">
             <FaCoins className="text-white text-xl" />
             <h3 className="ml-3 text-xl font-semibold text-white">Reward Points</h3>
@@ -65,7 +65,7 @@ const Balance = () => {
           </div>
           <a
             href="/redeem"
-            className="flex items-center justify-center w-full px-4 py-2 bg-white text-purple-600 rounded-lg font-semibold hover:bg-purple-50 transition-all duration-200"
+            className="flex items-center justify-center w-full px-4 py-2 bg-white dark:bg-dark-accent-secondary text-purple-600 dark:text-dark-bg-primary rounded-lg font-semibold hover:bg-purple-50 dark:hover:bg-dark-accent-primary transition-all duration-200"
           >
             <FaExchangeAlt className="mr-2" /> Redeem
           </a>

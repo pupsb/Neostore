@@ -9,6 +9,7 @@ import logo from '../../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import Sidebar from "./sideBar";
+import ThemeToggle from "../../components/ThemeToggle";
 
 const NavBar = () => {
   const { isLoading } = useAuth0();
@@ -28,20 +29,23 @@ const NavBar = () => {
   return (
     <>
       {!isLoading && (
-        <nav className="bg-white border-b md:bg-opacity-100">
+        <nav className="bg-white dark:bg-dark-bg-primary border-b dark:border-dark-border md:bg-opacity-100 transition-colors duration-300">
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
               <img src="/logo.png" alt="" className="w-14 rounded-lg" />
-              <span className="text-xl font-bold text-black uppercase tracking-wider shadow-l">
+              <span className="text-xl font-bold text-black dark:text-white uppercase tracking-wider shadow-l">
                 NeoStore
               </span>
             </a>
 
-            <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+            <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse items-center gap-3">
+              {/* Theme Toggle */}
+              <ThemeToggle />
+
               {!isLoggedIn ? (
                 <button
                   type="button"
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-[#03045E] dark:hover:bg-[#023E8A] dark:focus:ring-blue-800"
+                  className="text-white bg-blue-700 hover:bg-blue-800 dark:bg-dark-accent-primary dark:hover:bg-dark-accent-secondary dark:text-dark-bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-dark-accent-primary/50 font-medium rounded-lg text-sm px-4 py-2 text-center transition-colors"
                   onClick={() => window.location = "/login"}
                 >
                   Login

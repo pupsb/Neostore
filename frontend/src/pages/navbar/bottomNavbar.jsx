@@ -44,7 +44,7 @@ const BottomNavBar = () => {
     <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden px-4 pb-4">
       {/* Support Modal */}
       {isSupporting && (
-        <div className="absolute bottom-24 right-4 bg-white rounded-2xl shadow-xl p-4 border border-gray-100">
+        <div className="absolute bottom-24 right-4 bg-white dark:bg-dark-bg-card rounded-2xl shadow-xl p-4 border border-gray-100 dark:border-dark-border transition-colors duration-300">
           <div className="flex flex-col gap-3">
             <a
               href={`https://wa.me/919395578107?text=${message}`}
@@ -69,7 +69,7 @@ const BottomNavBar = () => {
       )}
 
       {/* Navigation Bar */}
-      <div className="mx-4 bg-white rounded-2xl shadow-lg border border-gray-100">
+      <div className="mx-4 bg-white dark:bg-dark-bg-card rounded-2xl shadow-lg border border-gray-100 dark:border-dark-border transition-colors duration-300">
         <div className="px-2 py-1">
           <div className="flex justify-around items-center">
             {navItems.map((item) => {
@@ -80,9 +80,9 @@ const BottomNavBar = () => {
                   key={item.label}
                   onClick={() => setIsSupporting(!isSupporting)}
                   className={`flex flex-col items-center py-3 px-4 relative ${isSupporting
-                    ? 'text-blue-600'
-                    : 'text-gray-600'
-                    } hover:bg-gray-50 rounded-xl transition-colors`}
+                    ? 'text-blue-600 dark:text-dark-accent-primary'
+                    : 'text-gray-600 dark:text-dark-text-secondary'
+                    } hover:bg-gray-50 dark:hover:bg-dark-bg-hover rounded-xl transition-colors`}
                 >
                   <FontAwesomeIcon
                     icon={item.icon}
@@ -96,9 +96,9 @@ const BottomNavBar = () => {
                   key={item.label}
                   href={item.path}
                   className={`flex flex-col items-center py-3 px-4 relative ${isActive
-                    ? 'text-blue-600'
-                    : 'text-gray-600'
-                    } hover:bg-gray-50 rounded-xl transition-colors`}
+                    ? 'text-blue-600 dark:text-dark-accent-primary'
+                    : 'text-gray-600 dark:text-dark-text-secondary'
+                    } hover:bg-gray-50 dark:hover:bg-dark-bg-hover rounded-xl transition-colors`}
                 >
                   <FontAwesomeIcon
                     icon={item.icon}
@@ -107,7 +107,7 @@ const BottomNavBar = () => {
                   />
                   <span className="text-xs font-medium">{item.label}</span>
                   {isActive && (
-                    <span className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-blue-600 rounded-full" />
+                    <span className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-blue-600 dark:bg-dark-accent-primary rounded-full" />
                   )}
                 </a>
               );

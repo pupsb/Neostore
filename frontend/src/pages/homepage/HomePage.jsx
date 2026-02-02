@@ -55,8 +55,9 @@ const HomePage = () => {
       </a> */}
 
       {/* Main Content */}
-      <div className="mt-2 lg:mx-24 mx-4 flex flex-col gap-3 ">
+      <div className="mt-2 lg:mx-24 mx-4 flex flex-col gap-3 min-h-screen bg-white dark:bg-dark-bg-primary transition-colors duration-300">
         <CarouselPeek data={{ CarouselMb, CarouselPc }} />
+
 
         <div className="mt-5 flex flex-col gap-4">
 
@@ -64,7 +65,7 @@ const HomePage = () => {
             <>
               {trending && trending.length > 0 && (
                 <div>
-                  <div className="font-extrabold text-black md:text-2xl text-xl">
+                  <div className="font-extrabold text-black dark:text-white md:text-2xl text-xl">
                     Trending
                   </div>
                   <CardsScroller data={trending} />
@@ -72,7 +73,7 @@ const HomePage = () => {
               )}
               {instantGames && instantGames.length > 0 && (
                 <section id="instant-games">
-                  <div className="font-extrabold text-black md:text-2xl text-xl">
+                  <div className="font-extrabold text-black dark:text-white md:text-2xl text-xl">
                     Discounts
                   </div>
                   <CardsGrid data={instantGames} />
@@ -81,7 +82,7 @@ const HomePage = () => {
 
               {games && games.length > 0 && (
                 <section id="games">
-                  <div className="font-extrabold text-black md:text-2xl text-xl">
+                  <div className="font-extrabold text-black dark:text-white md:text-2xl text-xl">
                     Games
                   </div>
                   <CardsGrid data={games} />
@@ -90,7 +91,7 @@ const HomePage = () => {
 
               {ott && ott.length > 0 && (
                 <section id="ott">
-                  <div className="font-extrabold text-black md:text-2xl text-xl">
+                  <div className="font-extrabold text-black dark:text-white md:text-2xl text-xl">
                     OTTs
                   </div>
                   <CardsGrid data={ott} />
@@ -99,7 +100,7 @@ const HomePage = () => {
 
               {others && others.length > 0 && (
                 <section id="others">
-                  <div className="font-extrabold text-black md:text-2xl text-xl">
+                  <div className="font-extrabold text-black dark:text-white md:text-2xl text-xl">
                     Others
                   </div>
                   <CardsGrid data={others} />

@@ -13,6 +13,7 @@ import AdminPage from "./pages/admin/AdminPage";
 import Footer from "./pages/footer/Footer";
 import { VariableContext } from "./context/VariableContext";
 import Toast from "./components/Toast";
+import { ThemeProvider } from "./context/ThemeContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import Login from "./pages/loginPage/Login";
 import Register from "./pages/loginPage/Register";
@@ -34,13 +35,12 @@ import ProtectedRoute from "./Routes/protectedRoutes";
 import Orders from "./pages/dashboard/orders/Orders";
 
 function App() {
-  document.documentElement.classList.add("dark");
   const { show, setShow, admin1, admin2, admin3, user, isLoggedIn } =
     useContext(VariableContext);
   const { isLoading, isAuthenticated } = useAuth0();
 
   return (
-    <>
+    <ThemeProvider>
       {!isLoading && (
         <>
           <NavBar />
@@ -193,7 +193,7 @@ function App() {
               path="/orders"
               element={
                 <ProtectedRoute
-                  element={<Orders/>}
+                  element={<Orders />}
                   requiredRoles={["user", "reseller", "admin"]} // Allow user, reseller, and admin
                 />
               }
@@ -223,7 +223,7 @@ function App() {
           {/* <Footer /> */}
         </>
       )}
-    </>
+    </ThemeProvider>
   );
 }
 

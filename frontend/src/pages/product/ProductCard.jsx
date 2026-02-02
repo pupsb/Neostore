@@ -17,7 +17,7 @@ const ProductCard = ({ data, handleSelected }) => {
   return (
     <li>
       <div
-        className="p-[1em] bg-[#fff] rounded-[1em] md:flex flex-col lg:w-[17rem] border border-[#023E8A]"
+        className="p-[1em] bg-[#fff] dark:bg-dark-bg-card rounded-[1em] md:flex flex-col lg:w-[17rem] border border-[#023E8A] dark:border-dark-border transition-colors duration-300 hover:dark:bg-dark-bg-hover cursor-pointer"
         style={
           !data.inStock
             ? outOfStockStyle
@@ -39,21 +39,21 @@ const ProductCard = ({ data, handleSelected }) => {
           />
 
           {data.suggestedTask ? (
-            <div className="text-blue-700 bg-[#E8F7FF] px-3 py-1 rounded-lg text-xs font-semibold border border-[#BDE0FF] shadow-sm">
+            <div className="text-blue-700 dark:text-dark-accent-primary bg-[#E8F7FF] dark:bg-dark-bg-primary px-3 py-1 rounded-lg text-xs font-semibold border border-[#BDE0FF] dark:border-dark-accent-primary shadow-sm">
               {data.suggestedTask}
             </div>
           ) : (" ")}
 
         </div>
         <div className="lg:flex flex-row gap-5">
-          <div className="text-[#424242] font-[500]">{data.name}</div>
+          <div className="text-[#424242] dark:text-dark-text-primary font-[500]">{data.name}</div>
           <div className="flex gap-2 items-center">
-            
-              <div className="text-[0.9rem] line-through text-[#9ACD32]">
-                ₹{data.originalprice}
-              </div>
-           
-            <div className="text-[#E11D48] text-[1rem] font-[500]">
+
+            <div className="text-[0.9rem] line-through text-[#9ACD32] dark:text-gray-500">
+              ₹{data.originalprice}
+            </div>
+
+            <div className="text-[#E11D48] dark:text-dark-accent-primary text-[1rem] font-[500]">
               {user?.role === "reseller"
                 ? `₹${data.resellprice}`
                 : `₹${data.discountedprice}`}
@@ -62,7 +62,7 @@ const ProductCard = ({ data, handleSelected }) => {
         </div>
         {/* Display 'Out of Stock' if the product is not in stock */}
         {!data.inStock && (
-          <div className="text-red-500 font-bold mt-2 text-center">
+          <div className="text-red-500 dark:text-red-400 font-bold mt-2 text-center">
             Out of Stock
           </div>
         )}

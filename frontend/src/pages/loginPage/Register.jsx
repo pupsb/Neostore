@@ -47,13 +47,13 @@ const Register = () => {
 
   return (
     <div className="sm:mt-4 flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-md dark:bg-[#0077B6] rounded-2xl shadow-xl p-8">
+      <div className="w-full max-w-md bg-white dark:bg-dark-bg-card rounded-2xl shadow-xl p-8 transition-colors duration-300">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-white mb-2">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
             {isOtpSent ? "Verify Your Account" : "Create Your Account"}
           </h1>
-          <p className="text-[#03045E] text-sm">
+          <p className="text-gray-600 dark:text-dark-text-secondary text-sm">
             {isOtpSent ? "Enter the OTP sent to your mobile number" : "Join NeoStore and start your gaming journey"}
           </p>
         </div>
