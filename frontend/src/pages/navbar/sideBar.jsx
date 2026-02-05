@@ -10,7 +10,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
 
   // Construct the WhatsApp message dynamically
   const message = encodeURIComponent(
-    `Name: ${user?.name || "N/A"}\nMobile: ${user?.mobilenumber || "N/A"}\nEmail: ${user?.email || "N/A"}\n\nHello Admin of neostoreofficial.in,\nCould you please assist me?`
+    `Name: ${user?.name || "N/A"}\nMobile: ${user?.mobilenumber || "N/A"}\nEmail: ${user?.email || "N/A"}\n\nHello Admin of neostoreofficial.store,\nCould you please assist me?`
   );
 
   // WhatsApp link with the constructed message

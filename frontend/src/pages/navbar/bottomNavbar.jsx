@@ -37,7 +37,7 @@ const BottomNavBar = () => {
   ];
 
   const message = encodeURIComponent(
-    `Name: ${user?.name || "N/A"}\nMobile: ${user?.mobilenumber || "N/A"}\nEmail: ${user?.email || "N/A"}\n\nHello Admin of neostoreofficial.in/,\nCould you please assist me?`
+    `Name: ${user?.name || "N/A"}\nMobile: ${user?.mobilenumber || "N/A"}\nEmail: ${user?.email || "N/A"}\n\nHello Admin of neostoreofficial.store,\nCould you please assist me?`
   );
 
   return (
