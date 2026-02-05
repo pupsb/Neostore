@@ -144,7 +144,7 @@ const Orders = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       {order?.status === 'Created' && (
                         <a
-                          href={`https://neostore.in/confirmation?client_txn_id=${order?.orderid}`}
+                          href={`https://neostoreofficial.store/confirmation?client_txn_id=${order?.orderid}`}
                           className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                         >
                           Verify Payment
@@ -187,7 +187,7 @@ const Orders = () => {
                   <p className="text-sm text-gray-600 dark:text-gray-300">Date: {timeFormatter(order?.createdAt)}</p>
                   {order?.status === 'Created' && (
                     <a
-                      href={`https://neostore.in/confirmation?client_txn_id=${order?.orderid}`}
+                      href={`https://neostoreofficial.store/confirmation?client_txn_id=${order?.orderid}`}
                       className="block mt-3 text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
                       Verify Payment
