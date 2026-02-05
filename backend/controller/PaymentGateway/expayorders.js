@@ -222,10 +222,10 @@ export const checkExpayOrderStatus = async (req, res) => {
             UserId : ${order.input1}\n\n
             ServerId : ${order.input2}\n\n
             Price : ₹${order.value}\n\n
-            Thank you for purchasing from Woex Supply\n\n
+          Thank you for purchasing from NeoStore\n\n
             If you have any issues related to the order, kindly contact customer service via Live Chat.
             Best Regards,\n\n
-            Woex Supply`
+          NeoStore`
           );
         } else {
           // SmileOne recharge failed
@@ -288,10 +288,10 @@ export const checkExpayOrderStatus = async (req, res) => {
             UserId : ${order.input1}\n\n
             ServerId : ${order.input2}\n\n
             Price : ₹${order.value}\n\n
-            Thank you for purchasing from Woex Supply\n\n
+          Thank you for purchasing from NeoStore\n\n
             If you have any issues related to the order, kindly contact customer service via Live Chat.
             Best Regards,\n\n
-            Woex Supply`
+          NeoStore`
           );
         } else {
           // Moogold recharge failed

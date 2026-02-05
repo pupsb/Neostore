@@ -70,7 +70,7 @@ export const upiGateway = async (req, res) => {
         customer_name: user.name,
         customer_email: user.email,
         customer_mobile: user.mobilenumber,
-        // redirect_url: "https://senofficial.in/confirmation",
+        // redirect_url: "https://neostoreofficial.store/confirmation",
         redirect_url: `${process.env.REDIRECT_DOMAIN}/confirmation`,
       }),
     });
@@ -192,7 +192,7 @@ export const ugOrderStatus = async (req, res) => {
             UserId : ${order.input1}\n\n
             ServerId : ${order.input2}\n\n
             Price : ₹${order.value}\n\n
-            Thank you for purchasing from Woex Supply\n\n
+            Thank you for purchasing from NeoStore\n\n
             If you have any issues related to the order, kindly contact customer service via Live Chat.
             Best Regards,\n\n
             Woex Supply`
@@ -262,10 +262,10 @@ export const ugOrderStatus = async (req, res) => {
             UserId : ${order.input1}\n\n
             ServerId : ${order.input2}\n\n
             Price : ₹${order.value}\n\n
-            Thank you for purchasing from Woex Supply\n\n
+            Thank you for purchasing from NeoStore\n\n
             If you have any issues related to the order, kindly contact customer service via Live Chat.
             Best Regards,\n\n
-            Woex Supply`
+            NeoStore`
             // UPI transaction id : ${utr}\n\n
           );
         }

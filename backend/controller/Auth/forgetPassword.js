@@ -14,13 +14,13 @@ export const forgetPassword = async (req, res) => {
     sendEmail(user.email, "Reset Password",
       `
       Dear user,\n
-      We received a request to reset your password for your  Woex Supply \n
+      We received a request to reset your password for your  NeoStore \n
       Please click below to reset your password\n\n
       ${process.env.REDIRECT_DOMAIN}/reset_password/${user._id}/${token}\n\n
       
       If you did not request a password reset, please ignore this email. Your password will remain unchanged.\n\n
       Best Regards,\n
-      Woex Supply\n
+      NeoStore\n
       `);
 
     res.status(200).json({ msg: "Password Reset Link has been sent to your Gmail App. Click on the link to reset your password." });

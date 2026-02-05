@@ -11,7 +11,7 @@ export const sendEmail = async (email,subject,text) => {
   });
 
   var mailOptions = {
-    from: "woexsupply@gmail.com",
+    from: "",
     to: email,
     subject: subject,
     text: text,

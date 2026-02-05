@@ -91,12 +91,12 @@ export const login = async (req, res) => {
     //   sendEmail(email,"Please verify you account!",
     //     `
     //     Dear user,\n
-    //     Thank you for registering on Gammerce\n
+    //     Thank you for registering on NeoStore\n
     //     Please click below to verify your email address.\n\n
     //     ${process.env.REDIRECT_DOMAIN}/verification/${user._id}/${token}\n\n
     //     If you did not request this, please ignore this email.\n\n
     //     Best Regards,\n
-    //     Gammerce\n`)
+    //     NeoStore\n`)
 
     //   return res.status(400).json({ msg: "Please verify your email address. A verification email has been sent to your inbox. If you don’t see it, kindly check your spam or junk folder." }
     // );
