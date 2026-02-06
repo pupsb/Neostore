@@ -2,3 +2,5 @@ node_modules
 uploads/*
 !uploads/.gitkeep
 .env
+backend/check-order-statuses.js
+backend/backend-diagnosis.js
