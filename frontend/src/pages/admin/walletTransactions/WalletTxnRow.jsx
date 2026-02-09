@@ -29,24 +29,24 @@ const WalletTxnRow = ({ data }) => {
             <td className="px-6 py-4"
                 style={
                     data.status === "Processing"
-                    ? { color: "#FF962D" }
-                    : data.status === "Success"
-                    ? { color: "#9ACD32" }
-                    : { color: "#FF4646" }
+                        ? { color: "#FF962D" }
+                        : data.status === "Success"
+                            ? { color: "#9ACD32" }
+                            : { color: "#FF4646" }
                 }
-                >
+            >
                 {data.status}
             </td>
-            <td className="px-6 py-4">₹ {data.amount}</td>
+            <td className="px-6 py-4 text-gray-900 dark:text-gray-200">₹ {data.amount}</td>
             <th
                 scope="row"
                 className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
             >
                 {data.orderid}
             </th>
-            <td className="px-6 py-4">{data.userid}</td>
-            <td className="px-6 py-4">{data.useremail}</td>
-            <td className="px-6 py-4">{formatDate(data.updatedAt)}</td>
+            <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{data.userid}</td>
+            <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{data.useremail}</td>
+            <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{formatDate(data.updatedAt)}</td>
         </tr>
     );
 };

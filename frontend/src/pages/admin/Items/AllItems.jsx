@@ -95,15 +95,15 @@ export default function AllItems() {
                     <tbody>
                         {items.map((item) => (
                             <tr key={item.itemid} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td className="px-6 py-4">{item.itemid}</td>
-                                <td className="px-6 py-4">{item.name}</td>
-                                <td className="px-6 py-4">{item.apiType || 'N/A'}</td>
-                                <td className="px-6 py-4">{item.inStock ? 'Yes' : 'No'}</td>
-                                <td className="px-6 py-4">{item.originalprice}</td>
-                                <td className="px-6 py-4">{item.discountedprice}</td>
-                                <td className="px-6 py-4">{item.resellprice}</td>
-                                <td className="px-6 py-4">{item.suggestedTask || 'N/A'}</td>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{item.itemid}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{item.name}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{item.apiType || 'N/A'}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{item.inStock ? 'Yes' : 'No'}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{item.originalprice}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{item.discountedprice}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{item.resellprice}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{item.suggestedTask || 'N/A'}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">
                                     {item.itemidarray ? item.itemidarray.join(', ') : 'N/A'}
                                 </td>
                                 <td className="px-6 py-4 flex space-x-2">

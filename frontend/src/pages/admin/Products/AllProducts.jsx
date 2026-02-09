@@ -107,15 +107,15 @@ export default function AllProducts() {
                     <tbody>
                         {products.map((product) => (
                             <tr key={product._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td className="px-6 py-4">{product.productid}</td>
-                                <td className="px-6 py-4">{product.name}</td>
-                                <td className="px-6 py-4">{product.type}</td>
-                                <td className="px-6 py-4">{product.apiType || 'N/A'}</td>
-                                <td className="px-6 py-4">{product.category}</td>
-                                <td className="px-6 py-4">{product.istrending ? 'Yes' : 'No'}</td>
-                                <td className="px-6 py-4">{product.importantnote}</td>
-                                <td className="px-6 py-4">{product.items.join(', ')}</td>
-                                <td className="px-6 py-4">{product.instock ? 'Yes' : 'No'}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{product.productid}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{product.name}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{product.type}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{product.apiType || 'N/A'}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{product.category}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{product.istrending ? 'Yes' : 'No'}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{product.importantnote}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{product.items.join(', ')}</td>
+                                <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{product.instock ? 'Yes' : 'No'}</td>
                                 <td className="px-6 py-4">
                                     <button
                                         onClick={() => openModal(product)}

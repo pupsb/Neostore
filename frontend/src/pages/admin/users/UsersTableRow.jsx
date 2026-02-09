@@ -21,13 +21,13 @@ const UsersTableRow = ({ user }) => {
         >
           {user?.userid}
         </th>
-        <td className="px-6 py-4">{user?.name}</td>
-        <td className="px-6 py-4">{user?.mobilenumber}</td>
-        <td className="px-6 py-4">{user?.email}</td>
-        <td className="px-6 py-4">{user?.role}</td>
-        <td className="px-6 py-4">{user?.balance}</td>
-        <td className="px-6 py-4">{user?.verified === "true" ? "Verified" : "Not Verified"}</td>
-        <td className="px-6 py-4">{user?.isBlocked === "true" ? "Blocked" : "Not Blocked"}</td>
+        <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{user?.name}</td>
+        <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{user?.mobilenumber}</td>
+        <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{user?.email}</td>
+        <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{user?.role}</td>
+        <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{user?.balance}</td>
+        <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{user?.verified === "true" ? "Verified" : "Not Verified"}</td>
+        <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{user?.isBlocked === "true" ? "Blocked" : "Not Blocked"}</td>
         <td className="px-6 py-4 space-x-2">
           <button onClick={handleTopUpModalOpen} className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
             Top-Up

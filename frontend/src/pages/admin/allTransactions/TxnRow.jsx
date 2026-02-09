@@ -28,7 +28,7 @@ const TxnRow = ({ data }) => {
         {txn}
         {/* {data?.userid} */}
       </th>
-      <td className="px-6 py-4">{data?.itemname}</td>
+      <td className="px-6 py-4 text-gray-900 dark:text-gray-200">{data?.itemname}</td>
       <td
         className="px-6 py-4"
         style={
@@ -41,13 +41,13 @@ const TxnRow = ({ data }) => {
       >
         {data?.status}
       </td>
-      <td className="px-3 py-4">{data?.input1}</td>
-      <td className="px-3 py-4">{data?.input2}</td>
+      <td className="px-3 py-4 text-gray-900 dark:text-gray-200">{data?.input1}</td>
+      <td className="px-3 py-4 text-gray-900 dark:text-gray-200">{data?.input2}</td>
 
-      <td className="px-3 py-4">₹ {data?.value}</td>
-      <td className="px-3 py-4">{data?.paymentmode}</td>
-      <td className="px-3 py-4">{data?.useremail}</td>
-      <td className="px-3 py-4">{formatDate(data?.updatedAt)}</td>
+      <td className="px-3 py-4 text-gray-900 dark:text-gray-200">₹ {data?.value}</td>
+      <td className="px-3 py-4 text-gray-900 dark:text-gray-200">{data?.paymentmode}</td>
+      <td className="px-3 py-4 text-gray-900 dark:text-gray-200">{data?.useremail}</td>
+      <td className="px-3 py-4 text-gray-900 dark:text-gray-200">{formatDate(data?.updatedAt)}</td>
 
 
     </tr>
