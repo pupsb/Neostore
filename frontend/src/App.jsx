@@ -33,6 +33,7 @@ import OtpLogin from "./pages/loginPage/OtpLogin";
 import OtpVerify from "./pages/loginPage/OtpVerify";
 import ProtectedRoute from "./Routes/protectedRoutes";
 import Orders from "./pages/dashboard/orders/Orders";
+import Leaderboard from "./pages/leaderboard/Leaderboard";
 
 function App() {
   const { show, setShow, admin1, admin2, admin3, user, isLoggedIn } =
@@ -147,6 +148,15 @@ function App() {
                 </>
               }
             ></Route>
+            <Route
+              path="/leaderboard"
+              element={
+                <>
+                  <Leaderboard />
+                </>
+              }
+            >
+            </Route>
             <Route
               path="/privacypage"
               element={

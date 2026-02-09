@@ -65,6 +65,11 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                       Dashboard
                     </a>
                   </li>
+                  <li className="text-lg text-gray-800 hover:text-yellow-600 transition-colors duration-300">
+                    <a href="/leaderboard" className="block py-2 px-4 rounded-lg bg-yellow-100">
+                      🏆 Leaderboard
+                    </a>
+                  </li>
                   {user?.role === "admin" && (
                     <li className="text-lg text-gray-800 hover:text-blue-600 transition-colors duration-300">
                       <a href="/admin" className="block py-2 px-4 rounded-lg bg-red-100">

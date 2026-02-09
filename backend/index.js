@@ -24,6 +24,7 @@ import userRoutes from "./routes/user.js";
 import walletRoutes from "./routes/wallet.js";
 import pointsRoutes from "./routes/points.js";
 import otpRoutes from "./routes/otpLogin.js";
+import leaderboardRoutes from "./routes/leaderboard.js";
 
 import Wallet from "./models/Wallet.js";
 import Point from "./models/Points.js";
@@ -96,6 +97,7 @@ app.use("/user", userRoutes);
 app.use("/wallet", walletRoutes);
 app.use("/points", pointsRoutes);
 app.use("/otp", otpRoutes);
+app.use("/leaderboard", leaderboardRoutes);
 
 // Serve static files based on environment
 if (process.env.NODE_MODE === "production") {
