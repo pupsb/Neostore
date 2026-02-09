@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-import {VariableContext} from "../../../context/VariableContext";
+import { VariableContext } from "../../../context/VariableContext";
 
 const UpdateUserData = ({ user, closeModal }) => {
 
-    const {host, token} = useContext(VariableContext);
+  const { host, token } = useContext(VariableContext);
 
   const [formData, setFormData] = useState({
     name: user?.name || "",
@@ -13,7 +13,7 @@ const UpdateUserData = ({ user, closeModal }) => {
     verified: user?.verified || "false",
     isBlocked: user?.isBlocked || "false",
   });
-  
+
 
   const [message, setMessage] = useState(null);
 
@@ -54,9 +54,8 @@ const UpdateUserData = ({ user, closeModal }) => {
       <h2 className="text-xl font-bold mb-4">Edit User Data</h2>
       {message && (
         <div
-          className={`mb-4 p-2 text-sm rounded ${
-            message.type === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-          }`}
+          className={`mb-4 p-2 text-sm rounded ${message.type === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+            }`}
         >
           {message.text}
         </div>

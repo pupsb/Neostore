@@ -15,10 +15,10 @@ import AllProducts from "./Products/AllProducts";
 
 const AdminPage = () => {
   return (
-    <div className="flex h-screen bg-gray-100 overflow-y-hidden">
+    <div className="flex h-screen bg-gray-100 dark:bg-gray-900 overflow-y-hidden">
       {/* Sidebar */}
       <Sidebar />
-      
+
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-x-hidden">
         <Routes>
@@ -29,10 +29,10 @@ const AdminPage = () => {
           <Route path="txn" element={<AllTxn />} />
           <Route path="wallettxn" element={<AllWalletTxn />} />
           <Route path="admingallery" element={<AdminGallery />} />
-          <Route path="createproduct" element={<CreateProduct/>} />
-          <Route path="createitems" element={<CreateItems/>} />
-          <Route path="viewitems" element={<AllItems/>} />
-          <Route path="viewproducts" element={<AllProducts/>} />
+          <Route path="createproduct" element={<CreateProduct />} />
+          <Route path="createitems" element={<CreateItems />} />
+          <Route path="viewitems" element={<AllItems />} />
+          <Route path="viewproducts" element={<AllProducts />} />
         </Routes>
       </div>
     </div>

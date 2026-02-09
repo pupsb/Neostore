@@ -87,7 +87,7 @@ export default function AllProducts() {
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-bold mb-6">All Products</h1>
+            <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">All Products</h1>
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

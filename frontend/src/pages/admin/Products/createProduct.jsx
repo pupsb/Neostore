@@ -16,8 +16,8 @@ const CreateProduct = () => {
     } = useCreateProduct(host, token);
 
     return (
-        <div className="p-6 mb-12 bg-white rounded shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Create Product</h2>
+        <div className="p-6 mb-12 bg-white dark:bg-gray-800 rounded shadow-md">
+            <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Create Product</h2>
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
@@ -26,7 +26,7 @@ const CreateProduct = () => {
                 className="space-y-4"
             >
                 <div>
-                    <label className="block font-medium mb-2">Name:</label>
+                    <label className="block font-medium mb-2 text-gray-900 dark:text-white">Name:</label>
                     <input
                         type="text"
                         name="name"
@@ -36,7 +36,7 @@ const CreateProduct = () => {
                     />
                 </div>
                 <div>
-                    <label className="block font-medium mb-2">Type:</label>
+                    <label className="block font-medium mb-2 text-gray-900 dark:text-white">Type:</label>
                     <select
                         name="type"
                         className="block w-full p-2 border rounded"
@@ -53,7 +53,7 @@ const CreateProduct = () => {
                     </select>
                 </div>
                 {/* <div>
-                    <label className="block font-medium mb-2">Product ID: unique</label>
+                    <label className="block font-medium mb-2 text-gray-900 dark:text-white">Product ID: unique</label>
                     <input
                         type="number"
                         name="productid"
@@ -63,7 +63,7 @@ const CreateProduct = () => {
                     />
                 </div> */}
                 <div>
-                    <label className="block font-medium mb-2">Category:</label>
+                    <label className="block font-medium mb-2 text-gray-900 dark:text-white">Category:</label>
                     <select
                         name="category"
                         className="block w-full p-2 border rounded"
@@ -78,7 +78,7 @@ const CreateProduct = () => {
                     </select>
                 </div>
                 <div>
-                    <label className="block font-medium mb-2">Image Path:</label>
+                    <label className="block font-medium mb-2 text-gray-900 dark:text-white">Image Path:</label>
                     <input
                         type="text"
                         name="imgpath"
@@ -88,7 +88,7 @@ const CreateProduct = () => {
                     />
                 </div>
                 <div>
-                    <label className="block font-medium mb-2">Important Note:</label>
+                    <label className="block font-medium mb-2 text-gray-900 dark:text-white">Important Note:</label>
                     <textarea
                         name="importantnote"
                         className="block w-full p-2 border rounded"
@@ -97,7 +97,7 @@ const CreateProduct = () => {
                     />
                 </div>
                 <div>
-                    <label className="block font-medium mb-2">Inputs:</label>
+                    <label className="block font-medium mb-2 text-gray-900 dark:text-white">Inputs:</label>
                     {formData.inputs.map((input, index) => (
                         <div key={index} className="flex items-center mb-2">
                             <input
@@ -130,7 +130,7 @@ const CreateProduct = () => {
                 </div>
 
                 <div>
-                    <label className="block font-medium mb-2">Items (IDs):</label>
+                    <label className="block font-medium mb-2 text-gray-900 dark:text-white">Items (IDs):</label>
                     {formData.items.map((item, index) => (
                         <div key={index} className="flex items-center mb-2">
                             <input
@@ -159,7 +159,7 @@ const CreateProduct = () => {
                 </div>
 
                 {/* <div>
-                    <label className="block font-medium mb-2">In Stock:</label>
+                    <label className="block font-medium mb-2 text-gray-900 dark:text-white">In Stock:</label>
                     <select
                         name="instock"
                         className="block w-full p-2 border rounded"
@@ -172,7 +172,7 @@ const CreateProduct = () => {
                     </select>
                 </div> */}
                 <div>
-                    <label className="block font-medium mb-2">Is Trending:</label>
+                    <label className="block font-medium mb-2 text-gray-900 dark:text-white">Is Trending:</label>
                     <select
                         name="istrending"
                         className="block w-full p-2 border rounded"
@@ -187,7 +187,7 @@ const CreateProduct = () => {
                 </div>
 
                 <div>
-                    <label className="block font-medium mb-2">Is API:</label>
+                    <label className="block font-medium mb-2 text-gray-900 dark:text-white">Is API:</label>
                     <select
                         name="isApi"
                         className="block w-full p-2 border rounded"
@@ -203,7 +203,7 @@ const CreateProduct = () => {
 
                 {formData.isApi && (
                     <div>
-                        <label className="block font-medium mb-2">API Type:</label>
+                        <label className="block font-medium mb-2 text-gray-900 dark:text-white">API Type:</label>
                         <select
                             name="apiType"
                             className="block w-full p-2 border rounded"

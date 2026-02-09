@@ -24,7 +24,7 @@ export default function EditItem({ item, onSave, onClose }) {
                 <form onSubmit={handleSubmit}>
                     <div className="space-y-4">
                         {Object.keys(item).map((key) => (
-                            key !== 'itemid' && key!== "inStock" && key!=="isApi" && key!== "apiType" && key !== "_id" && key!== "createdAt" && key!== "updatedAt" && key!== "__v" && (
+                            key !== 'itemid' && key !== "inStock" && key !== "isApi" && key !== "apiType" && key !== "_id" && key !== "createdAt" && key !== "updatedAt" && key !== "__v" && (
                                 <div key={key} className="mb-4">
                                     <label className="block text-sm font-medium text-gray-700 capitalize">{key}</label>
                                     <input

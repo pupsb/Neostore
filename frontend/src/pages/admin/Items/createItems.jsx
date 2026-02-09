@@ -82,11 +82,11 @@ export default function CreateItems() {
   };
 
   return (
-    <div className="p-6 mb-12 bg-white rounded shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Create Item</h2>
+    <div className="p-6 mb-12 bg-white dark:bg-gray-800 rounded shadow-md">
+      <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Create Item</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block font-medium mb-2">Name:</label>
+          <label className="block font-medium mb-2 text-gray-900 dark:text-white">Name:</label>
           <input
             type="text"
             name="name"
@@ -96,7 +96,7 @@ export default function CreateItems() {
           />
         </div>
         <div>
-          <label className="block font-medium mb-2">Type: optional</label>
+          <label className="block font-medium mb-2 text-gray-900 dark:text-white">Type: optional</label>
           <select
             name="type"
             className="block w-full p-2 border rounded"
@@ -113,7 +113,7 @@ export default function CreateItems() {
         </div>
 
         <div>
-          <label className="block font-medium mb-2">Suggested Task: optional</label>
+          <label className="block font-medium mb-2 text-gray-900 dark:text-white">Suggested Task: optional</label>
           <input
             type="text"
             name="suggestedTask"
@@ -123,7 +123,7 @@ export default function CreateItems() {
           />
         </div>
         {/* <div>
-          <label className="block font-medium mb-2">In Stock:</label>
+          <label className="block font-medium mb-2 text-gray-900 dark:text-white">In Stock:</label>
           <select
             name="inStock"
             className="block w-full p-2 border rounded"
@@ -135,7 +135,7 @@ export default function CreateItems() {
           </select>
         </div> */}
         {/* <div>
-          <label className="block font-medium mb-2">Item ID: unique</label>
+          <label className="block font-medium mb-2 text-gray-900 dark:text-white">Item ID: unique</label>
           <input
             type="number"
             name="itemid"
@@ -145,7 +145,7 @@ export default function CreateItems() {
           />
         </div> */}
         <div>
-          <label className="block font-medium mb-2">Original Price:</label>
+          <label className="block font-medium mb-2 text-gray-900 dark:text-white">Original Price:</label>
           <input
             type="number"
             name="originalprice"
@@ -155,7 +155,7 @@ export default function CreateItems() {
           />
         </div>
         <div>
-          <label className="block font-medium mb-2">Discounted Price:</label>
+          <label className="block font-medium mb-2 text-gray-900 dark:text-white">Discounted Price:</label>
           <input
             type="number"
             name="discountedprice"
@@ -165,7 +165,7 @@ export default function CreateItems() {
           />
         </div>
         <div>
-          <label className="block font-medium mb-2">Resell Price:</label>
+          <label className="block font-medium mb-2 text-gray-900 dark:text-white">Resell Price:</label>
           <input
             type="number"
             name="resellprice"
@@ -175,7 +175,7 @@ export default function CreateItems() {
           />
         </div>
         <div>
-          <label className="block font-medium mb-2">Is API:</label>
+          <label className="block font-medium mb-2 text-gray-900 dark:text-white">Is API:</label>
           <select
             name="isApi"
             className="block w-full p-2 border rounded"
@@ -188,56 +188,56 @@ export default function CreateItems() {
         </div>
         {formData.isApi && (
           <div>
-          <div>
-            <label className="block font-medium mb-2">API Type:</label>
-            <select
-              name="apiType"
-              className="block w-full p-2 border rounded"
-              value={formData.apiType}
-              onChange={handleInputChange}
-            >
-              <option value="">Select API Type</option>
-              <option value="SMILEBR">SMILEBR</option>
-              <option value="SMILEPH">SMILEPH</option>
-              <option value="MOOGOLDMLBB">MOOGOLDMLBB</option>
-              <option value="MOOGOLDGENSHIN">MOOGOLDGENSHIN</option>
-              <option value="MOOGOLDHOK">MOOGOLDHOK</option>
-              <option value="OTHER">OTHER</option>
-            </select>
-          </div>
-          <div>
-          <label className="block font-medium mb-2 mt-2">Item ID Array: optional</label>
-          {formData.itemidarray.map((id, index) => (
-            <div key={index} className="flex items-center mb-2">
-              <input
-                type="text"
-                className="block w-full p-2 border rounded mr-2"
-                value={id}
-                onChange={(e) => handleItemIdChange(index, e.target.value)}
-              />
+            <div>
+              <label className="block font-medium mb-2 text-gray-900 dark:text-white">API Type:</label>
+              <select
+                name="apiType"
+                className="block w-full p-2 border rounded"
+                value={formData.apiType}
+                onChange={handleInputChange}
+              >
+                <option value="">Select API Type</option>
+                <option value="SMILEBR">SMILEBR</option>
+                <option value="SMILEPH">SMILEPH</option>
+                <option value="MOOGOLDMLBB">MOOGOLDMLBB</option>
+                <option value="MOOGOLDGENSHIN">MOOGOLDGENSHIN</option>
+                <option value="MOOGOLDHOK">MOOGOLDHOK</option>
+                <option value="OTHER">OTHER</option>
+              </select>
+            </div>
+            <div>
+              <label className="block font-medium mb-2 mt-2 text-gray-900 dark:text-white">Item ID Array: optional</label>
+              {formData.itemidarray.map((id, index) => (
+                <div key={index} className="flex items-center mb-2">
+                  <input
+                    type="text"
+                    className="block w-full p-2 border rounded mr-2"
+                    value={id}
+                    onChange={(e) => handleItemIdChange(index, e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="px-3 py-1 bg-red-500 text-white rounded"
+                    onClick={() => handleRemoveItemId(index)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
               <button
                 type="button"
-                className="px-3 py-1 bg-red-500 text-white rounded"
-                onClick={() => handleRemoveItemId(index)}
+                className="px-4 py-2 bg-blue-500 text-white rounded"
+                onClick={handleAddItemId}
               >
-                Remove
+                Add Item ID
               </button>
             </div>
-          ))}
-          <button
-            type="button"
-            className="px-4 py-2 bg-blue-500 text-white rounded"
-            onClick={handleAddItemId}
-          >
-            Add Item ID
-          </button>
-        </div>
           </div>
-          
+
         )}
-        
+
         <div>
-          <label className="block font-medium mb-2">Image Path:</label>
+          <label className="block font-medium mb-2 text-gray-900 dark:text-white">Image Path:</label>
           <input
             type="text"
             name="imgpath"
