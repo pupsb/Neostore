@@ -70,7 +70,7 @@ const NavBar = () => {
                         <a href="/wallet" className="block px-4 py-2 text-sm text-black hover:bg-green-500 dark:hover:bg-green-600 dark:text-white dark:hover:text-white">Wallet</a>
                       </li>
                       <li>
-                        <a href="/leaderboard" className="block px-4 py-2 text-sm text-black hover:bg-yellow-500 dark:hover:bg-yellow-600 dark:text-white dark:hover:text-white">🏆 Leaderboard</a>
+                        <a href="/leaderboard" className="block px-4 py-2 text-sm text-black hover:bg-yellow-500 dark:hover:bg-yellow-600 dark:text-white dark:hover:text-white">Leaderboard</a>
                       </li>
                       <li>
                         <a href="/orders" className="block px-4 py-2 text-sm text-black hover:bg-green-500 dark:hover:bg-green-600 dark:text-white dark:hover:text-white">Orders</a>
