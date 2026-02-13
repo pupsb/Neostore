@@ -111,7 +111,7 @@ export const getOrders = async (req, res) => {
     const { userId } = req.params;
     // console.log("controller: ", userId);
     
-    const orders = await Order.find({ userid: userId });
+    const orders = await Order.find({ userid: userId }).select('-itemidarray -__v');
     orders.reverse();
     res.status(200).json(orders);
   } catch (e) {

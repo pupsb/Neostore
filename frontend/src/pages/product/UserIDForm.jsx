@@ -113,7 +113,7 @@ const UserIDForm = () => {
           {message && <p className="text-[red] dark:text-red-400">{message}</p>}
 
           {!isLoading1 ? (
-            (product?.isApi && product?.type === "MLBB") && (
+            (product?.instantDelivery && product?.type === "MLBB") && (
               <button
                 onClick={handleSubmit}
                 className="bg-[#E11D48] dark:bg-dark-accent-primary hover:bg-[#E11D84] dark:hover:bg-dark-accent-secondary rounded-full p-2.5 text-white dark:text-dark-bg-primary font-[600] text-[1.1rem] w-full transition-colors"

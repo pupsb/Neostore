@@ -122,7 +122,7 @@ const Payments = () => {
                   payment !== null &&
                   input1 !== null &&
                   input2 !== null &&
-                  ((product?.isApi && product?.type === "MLBB") ? verified : !verified))
+                  ((product?.instantDelivery && product?.type === "MLBB") ? verified : !verified))
                   ? handleSubmit()
                   : setShow(true)
               }

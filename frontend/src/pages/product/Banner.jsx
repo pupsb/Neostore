@@ -28,7 +28,7 @@ const Banner = () => {
             </div>
             <div className='text-[#E11D48] dark:text-dark-accent-primary font-[700] lg:text-[1.3rem] text-[1.1rem] '>
 
-              {(product?.isApi) ? "Instant Delivery" : "Delivery within 30 mins"}
+              {(product?.instantDelivery) ? "Instant Delivery" : "Delivery within 30 mins"}
             </div>
             <div className='text-[#424242] dark:text-dark-text-secondary font-[700] text-[1rem] md:text-[1.1rem] lg:mt-5'>
               Note : {product?.importantnote}
