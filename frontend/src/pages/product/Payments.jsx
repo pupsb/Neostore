@@ -1,13 +1,10 @@
-import React, { useContext } from 'react'
-import { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { VariableContext } from '../../context/VariableContext'
-import { useAuth0 } from '@auth0/auth0-react'
 import { usePostOrder } from '../../hooks/usePostOrder'
-import { useNavigate, useParams } from 'react-router-dom'
-import { extractPart } from '../../utils/userIdExtractor'
+import { useNavigate } from 'react-router-dom'
 import { usePostOrderWallet } from '../../hooks/wallet/usePostOrderWallet'
 import { useGetBalance } from '../../hooks/wallet/useGetBalance'
-import { FaWallet, FaMobileAlt } from 'react-icons/fa';
+import TnC from '../footer/pages/TnC'
 
 
 const Payments = () => {
@@ -19,7 +16,18 @@ const Payments = () => {
 
   const [loadingBalance, setLoadingBalance] = useState(true);
   const [userBalance, setUserBalance] = useState(0);
+  const [isAgreed, setIsAgreed] = useState(false);
+  const [showTnC, setShowTnC] = useState(false);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (showTnC) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [showTnC]);
 
   useEffect(() => {
     async function fetchBalance() {
@@ -39,6 +47,11 @@ const Payments = () => {
   }, [balance]);
 
   const handleSubmit = async () => {
+    if (!isAgreed) {
+      setShow(true);
+      return;
+    }
+
     const values = {
       itemid: selected.itemid,
       product_id: product?._id,
@@ -59,90 +72,191 @@ const Payments = () => {
   const handleChange = (e) => {
     setPayment(e.target.value)
   }
+
   return (
-    <div className="py-[1.5em] px-[2em]  bg-[#FFFFFF] dark:bg-dark-bg-card flex flex-col  rounded-[1em] w-full transition-colors duration-300">
-      <div className='flex justify-between mb-3'>
-        <div className='text-[#424242] dark:text-dark-text-primary text-[1.4rem] font-[600]'>Total</div>
-        {/* <div className='text-[1.4rem] font-[600] text-[#00BBFF]'>₹{selected ? selected.discountedprice : "0"}</div> */}
-        <div className='text-[1.4rem] font-[600] text-[#E11D48] dark:text-dark-accent-primary'>
-          ₹{selected ? (user?.role === 'reseller' ? selected.resellprice : selected.discountedprice) : "0"}
+    <>
+      <div className="py-[1.5em] px-[2em]  bg-[#FFFFFF] dark:bg-dark-bg-card flex flex-col  rounded-[1em] w-full transition-colors duration-300">
+        <div className='flex justify-between mb-3'>
+          <div className='text-[#424242] dark:text-dark-text-primary text-[1.4rem] font-[600]'>Total</div>
+          <div className='text-[1.4rem] font-[600] text-[#E11D48] dark:text-dark-accent-primary'>
+            ₹{selected ? (user?.role === 'reseller' ? selected.resellprice : selected.discountedprice) : "0"}
+          </div>
         </div>
-      </div>
-      <hr className='w-full'></hr>
+        <hr className='w-full'></hr>
 
-      <div className='mt-7 flex flex-col gap-6'>
-        <div className='text-black dark:text-dark-text-primary text-[1rem] font-[600] '>Payment Methods</div>
-        <div className='flex gap-4 '>
-          <ul className="grid w-full md:gap-6 gap-3 md:grid-cols-2">
-            <li>
-              <input type="radio" id="hosting-small" name="hosting" value="upi"
-                className="hidden peer" onChange={handleChange} required />
-              <label htmlFor="hosting-small"
-                className="inline-flex items-center  w-full p-5 text-gray-500 bg-white border-[3px]  rounded-[1em] cursor-pointer  dark:border-[#E11D48] dark:peer-checked:text-blue-500 peer-checked:border-[#9ACD32] peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 gap-3">
+        <div className='mt-7 flex flex-col gap-6'>
+          <div className='text-black dark:text-dark-text-primary text-[1rem] font-[600] '>Payment Methods</div>
+          <div className='flex gap-4 '>
+            <ul className="grid w-full md:gap-6 gap-3 md:grid-cols-2">
+              <li>
+                <input type="radio" id="hosting-small" name="hosting" value="upi"
+                  className="hidden peer" onChange={handleChange} required />
+                <label htmlFor="hosting-small"
+                  className="inline-flex items-center  w-full p-5 text-gray-500 bg-white border-[3px]  rounded-[1em] cursor-pointer  dark:border-[#E11D48] dark:peer-checked:text-blue-500 peer-checked:border-[#9ACD32] peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 gap-3">
 
-                <svg xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 65 65" viewBox="0 0 65 65" id="bhim-upi" className='w-8'>
-                  <polygon fill="#fad1c4" strokeline="#e54125" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="2" points="38.3 5.5 23.1 60.7 51.9 32.4"></polygon>
-                  <polygon fill="#fff" stroke="#e54125" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="2" points="28.1 4.1 13.1 60.9 42.2 32.8"></polygon>
-                </svg>
-                <div className="block">
-                  <div className="w-full text-[1rem] text-[#424242] font-semibold">Pay Using Any UPI</div>
-                </div>
-              </label>
+                  <svg xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 65 65" viewBox="0 0 65 65" id="bhim-upi" className='w-8'>
+                    <polygon fill="#fad1c4" strokeline="#e54125" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="2" points="38.3 5.5 23.1 60.7 51.9 32.4"></polygon>
+                    <polygon fill="#fff" stroke="#e54125" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="2" points="28.1 4.1 13.1 60.9 42.2 32.8"></polygon>
+                  </svg>
+                  <div className="block">
+                    <div className="w-full text-[1rem] text-[#424242] font-semibold">Pay Using Any UPI</div>
+                  </div>
+                </label>
 
-            </li>
-            <li>
-              <input type="radio" id="hosting-big" name="hosting" value="wallet"
-                className="hidden peer" onChange={handleChange} />
-              <label htmlFor="hosting-big"
-                className="inline-flex items-center  w-full p-5 gap-3 text-gray-500 bg-white border-[3px]  rounded-[1em] cursor-pointer  dark:border-[#E11D48] dark:peer-checked:text-blue-500 peer-checked:border-[#9ACD32] peer-checked:text-[blue-600] hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="wallet" className='w-8'><path fill="red" d="M14.2142222,-3.90798505e-14 C17.4044444,-3.90798505e-14 20,2.65477957 20,5.91891245 L20,5.91891245 L20,13.0810875 C20,16.3452204 17.4044444,19 14.2142222,19 C13.8462222,19 13.5475556,18.6944139 13.5475556,18.3178881 C13.5475556,17.9413623 13.8462222,17.6357762 14.2142222,17.6357762 C16.6693333,17.6357762 18.6666667,15.5930784 18.6666667,13.0810875 L18.6666667,13.0810875 L18.6666667,7.36498971 L15.3831111,7.36498971 C14.3048889,7.36589919 13.4257778,8.26446795 13.4248889,9.36857977 C13.4257778,10.4726916 14.3048889,11.3712604 15.3831111,11.3721698 L15.3831111,11.3721698 L16.7475556,11.3721698 C17.1155556,11.3721698 17.4142222,11.677756 17.4142222,12.0542817 C17.4142222,12.4308075 17.1155556,12.7363937 16.7475556,12.7363937 L16.7475556,12.7363937 L15.3831111,12.7363937 C13.5688889,12.7354842 12.0924444,11.2248337 12.0915556,9.36857977 C12.0924444,7.51232588 13.5688889,6.00167536 15.3831111,6.00076588 L15.3831111,6.00076588 L18.6666667,6.00076588 L18.6666667,5.91891245 C18.6666667,3.40692164 16.6693333,1.36422383 14.2142222,1.36422383 L14.2142222,1.36422383 L5.78488889,1.36422383 C3.80622222,1.36422383 2.14577778,2.69934422 1.56711111,4.52831363 L1.56711111,4.52831363 L10.3546667,4.52831363 C10.7226667,4.52831363 11.0213333,4.83389977 11.0213333,5.21042554 C11.0213333,5.5878608 10.7226667,5.89253746 10.3546667,5.89253746 L10.3546667,5.89253746 L1.336,5.89253746 L1.336,5.89253746 L1.33333333,5.91891245 L1.33333333,13.0810875 C1.33333333,15.5930784 3.32977778,17.6357762 5.78488889,17.6357762 L5.78488889,17.6357762 L10.0257778,17.6357762 C10.3937778,17.6357762 10.6924444,17.9413623 10.6924444,18.3178881 C10.6924444,18.6944139 10.3937778,19 10.0257778,19 L10.0257778,19 L5.78488889,19 C2.59466667,19 -3.55271368e-15,16.3452204 -3.55271368e-15,13.0810875 L-3.55271368e-15,13.0810875 L-3.55271368e-15,5.91891245 C-3.55271368e-15,2.65477957 2.59466667,-3.90798505e-14 5.78488889,-3.90798505e-14 L5.78488889,-3.90798505e-14 Z M15.8307556,8.62498684 C16.1987556,8.62498684 16.4974222,8.93057297 16.4974222,9.30709875 C16.4974222,9.68362453 16.1987556,9.98921066 15.8307556,9.98921066 L15.8307556,9.98921066 L15.5276444,9.98921066 C15.1596444,9.98921066 14.8609778,9.68362453 14.8609778,9.30709875 C14.8609778,8.93057297 15.1596444,8.62498684 15.5276444,8.62498684 L15.5276444,8.62498684 Z" transform="translate(2 2.5)"></path></svg>
-                <div className="block">
-                  <div className="w-full text-[1rem] text-[#424242] font-semibold">W-Coins</div>
-                  {selected && isLoggedIn && userBalance && (
-                    <span>Balance: {userBalance}</span>
-                  )}
-                </div>
-              </label>
-            </li>
-          </ul>
-        </div>
-        {(!isLoading && !isLoading1) ? (
-          !isLoggedIn ? (
-            <button
-              className="bg-red-500 hover:bg-red-600 rounded-full p-2.5 text-white font-[600] text-[1.1rem] w-full"
-              onClick={() => navigate("/login")}
+              </li>
+              <li>
+                <input type="radio" id="hosting-big" name="hosting" value="wallet"
+                  className="hidden peer" onChange={handleChange} />
+                <label htmlFor="hosting-big"
+                  className="inline-flex items-center  w-full p-5 gap-3 text-gray-500 bg-white border-[3px]  rounded-[1em] cursor-pointer  dark:border-[#E11D48] dark:peer-checked:text-blue-500 peer-checked:border-[#9ACD32] peer-checked:text-[blue-600] hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="wallet" className='w-8'><path fill="red" d="M14.2142222,-3.90798505e-14 C17.4044444,-3.90798505e-14 20,2.65477957 20,5.91891245 L20,5.91891245 L20,13.0810875 C20,16.3452204 17.4044444,19 14.2142222,19 C13.8462222,19 13.5475556,18.6944139 13.5475556,18.3178881 C13.5475556,17.9413623 13.8462222,17.6357762 14.2142222,17.6357762 C16.6693333,17.6357762 18.6666667,15.5930784 18.6666667,13.0810875 L18.6666667,13.0810875 L18.6666667,7.36498971 L15.3831111,7.36498971 C14.3048889,7.36589919 13.4257778,8.26446795 13.4248889,9.36857977 C13.4257778,10.4726916 14.3048889,11.3712604 15.3831111,11.3721698 L15.3831111,11.3721698 L16.7475556,11.3721698 C17.1155556,11.3721698 17.4142222,11.677756 17.4142222,12.0542817 C17.4142222,12.4308075 17.1155556,12.7363937 16.7475556,12.7363937 L16.7475556,12.7363937 L15.3831111,12.7363937 C13.5688889,12.7354842 12.0924444,11.2248337 12.0915556,9.36857977 C12.0924444,7.51232588 13.5688889,6.00167536 15.3831111,6.00076588 L15.3831111,6.00076588 L18.6666667,6.00076588 L18.6666667,5.91891245 C18.6666667,3.40692164 16.6693333,1.36422383 14.2142222,1.36422383 L14.2142222,1.36422383 L5.78488889,1.36422383 C3.80622222,1.36422383 2.14577778,2.69934422 1.56711111,4.52831363 L1.56711111,4.52831363 L10.3546667,4.52831363 C10.7226667,4.52831363 11.0213333,4.83389977 11.0213333,5.21042554 C11.0213333,5.5878608 10.7226667,5.89253746 10.3546667,5.89253746 L10.3546667,5.89253746 L1.336,5.89253746 L1.336,5.89253746 L1.33333333,5.91891245 L1.33333333,13.0810875 C1.33333333,15.5930784 3.32977778,17.6357762 5.78488889,17.6357762 L5.78488889,17.6357762 L10.0257778,17.6357762 C10.3937778,17.6357762 10.6924444,17.9413623 10.6924444,18.3178881 C10.6924444,18.6944139 10.3937778,19 10.0257778,19 L10.0257778,19 L5.78488889,19 C2.59466667,19 -3.55271368e-15,16.3452204 -3.55271368e-15,13.0810875 L-3.55271368e-15,13.0810875 L-3.55271368e-15,5.91891245 C-3.55271368e-15,2.65477957 2.59466667,-3.90798505e-14 5.78488889,-3.90798505e-14 L5.78488889,-3.90798505e-14 Z M15.8307556,8.62498684 C16.1987556,8.62498684 16.4974222,8.93057297 16.4974222,9.30709875 C16.4974222,9.68362453 16.1987556,9.98921066 15.8307556,9.98921066 L15.8307556,9.98921066 L15.5276444,9.98921066 C15.1596444,9.98921066 14.8609778,9.68362453 14.8609778,9.30709875 C14.8609778,8.93057297 15.1596444,8.62498684 15.5276444,8.62498684 L15.5276444,8.62498684 Z" transform="translate(2 2.5)"></path></svg>
+                  <div className="block">
+                    <div className="w-full text-[1rem] text-[#424242] font-semibold">W-Coins</div>
+                    {selected && isLoggedIn && userBalance && (
+                      <span>Balance: {userBalance}</span>
+                    )}
+                  </div>
+                </label>
+              </li>
+            </ul>
+          </div>
+
+          {/* ── TnC Agreement Checkbox ── */}
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              id="tnc-agreement"
+              checked={isAgreed}
+              onChange={(e) => setIsAgreed(e.target.checked)}
+              aria-label="Agree to Terms and Conditions"
+              className="min-w-[18px] min-h-[18px] w-[18px] h-[18px] accent-[#E11D48] dark:accent-[#B4FF39] rounded cursor-pointer focus-visible:ring-2 focus-visible:ring-[#E11D48] dark:focus-visible:ring-[#B4FF39] transition-colors duration-200"
+            />
+            <label
+              htmlFor="tnc-agreement"
+              className="text-sm text-gray-600 dark:text-dark-text-secondary select-none cursor-pointer leading-snug"
             >
-              Please Login First
-            </button>
+              I agree to the{' '}
+              <button
+                type="button"
+                onClick={(e) => { e.preventDefault(); setShowTnC(true); }}
+                className="text-[#E11D48] dark:text-[#B4FF39] font-semibold underline underline-offset-2 hover:opacity-80 cursor-pointer transition-opacity duration-200 focus-visible:ring-2 focus-visible:ring-[#E11D48] dark:focus-visible:ring-[#B4FF39] rounded-sm"
+              >
+                Terms and Conditions
+              </button>
+            </label>
+          </div>
+
+          {(!isLoading && !isLoading1) ? (
+            !isLoggedIn ? (
+              <button
+                className="bg-red-500 hover:bg-red-600 rounded-full p-2.5 text-white font-[600] text-[1.1rem] w-full cursor-pointer transition-colors duration-200"
+                onClick={() => navigate("/login")}
+              >
+                Please Login First
+              </button>
+            ) : (
+              <button
+                disabled={!isAgreed}
+                className={`rounded-full p-2.5 font-[600] text-[1.1rem] w-full transition-all duration-200 
+                  ${isAgreed
+                    ? 'bg-[#E11D48] dark:bg-dark-accent-primary hover:bg-[#be123c] dark:hover:bg-dark-accent-secondary text-white dark:text-dark-bg-primary cursor-pointer shadow-md hover:shadow-lg active:scale-[0.98]'
+                    : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-500 cursor-not-allowed'
+                  }`}
+                onClick={() => {
+                  if (!isAgreed) return;
+                  (selected !== null &&
+                    payment !== null &&
+                    input1 !== null &&
+                    input2 !== null &&
+                    ((product?.instantDelivery && product?.type === "MLBB") ? verified : !verified))
+                    ? handleSubmit()
+                    : setShow(true)
+                }}
+              >
+                BUY NOW
+              </button>
+            )
           ) : (
             <button
-              className="bg-[#E11D48] dark:bg-dark-accent-primary hover:[#E11D84] dark:hover:bg-dark-accent-secondary rounded-full p-2.5 text-white dark:text-dark-bg-primary font-[600] text-[1.1rem] w-full transition-colors"
-              onClick={() =>
-                (selected !== null &&
-                  payment !== null &&
-                  input1 !== null &&
-                  input2 !== null &&
-                  ((product?.instantDelivery && product?.type === "MLBB") ? verified : !verified))
-                  ? handleSubmit()
-                  : setShow(true)
-              }
+              disabled
+              type="button"
+              className="bg-[#00C5FF] hover:bg-blue-600 rounded-full p-2.5 text-white font-[600] text-[1.1rem] w-full"
             >
-              BUY NOW
+              <svg aria-hidden="true" role="status" className="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+              </svg>
+              Loading...
             </button>
-          )
-        ) : (
-          <button
-            disabled
-            type="button"
-            className="bg-[#00C5FF] hover:bg-blue-600 rounded-full p-2.5 text-white font-[600] text-[1.1rem] w-full"
-          >
-            <svg aria-hidden="true" role="status" className="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-            </svg>
-            Loading...
-          </button>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+
+      {/* ── TnC Modal ── */}
+      {showTnC && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-[fadeIn_200ms_ease-out]"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Terms and Conditions"
+          onClick={() => setShowTnC(false)}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+
+          {/* Modal Content */}
+          <div
+            className="relative bg-white dark:bg-dark-bg-card rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden animate-[slideUp_300ms_ease-out] border border-gray-200 dark:border-dark-border"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-dark-border sticky top-0 bg-white dark:bg-dark-bg-card z-10">
+              <h2 className="text-lg font-bold text-gray-900 dark:text-dark-text-primary">
+                Terms and Conditions
+              </h2>
+              <button
+                onClick={() => setShowTnC(false)}
+                aria-label="Close Terms and Conditions"
+                className="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 dark:text-dark-text-secondary hover:bg-gray-100 dark:hover:bg-dark-bg-hover cursor-pointer transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-[#E11D48] dark:focus-visible:ring-[#B4FF39] text-xl leading-none"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Scrollable TnC Content */}
+            <div className="overflow-y-auto px-6 py-4 flex-1 [&>div]:mt-0 [&>div]:mx-0 [&>div]:bg-transparent [&>div]:text-gray-800 [&>div]:dark:text-dark-text-secondary">
+              <TnC />
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 py-4 border-t border-gray-200 dark:border-dark-border bg-gray-50 dark:bg-dark-bg-secondary flex items-center justify-between gap-3">
+              <button
+                onClick={() => setShowTnC(false)}
+                className="px-5 py-2.5 rounded-full text-sm font-semibold text-gray-600 dark:text-dark-text-secondary hover:bg-gray-200 dark:hover:bg-dark-bg-hover cursor-pointer transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-[#E11D48]"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => { setIsAgreed(true); setShowTnC(false); }}
+                className="px-5 py-2.5 rounded-full text-sm font-semibold bg-[#E11D48] dark:bg-dark-accent-primary text-white dark:text-dark-bg-primary hover:bg-[#be123c] dark:hover:bg-dark-accent-secondary cursor-pointer transition-colors duration-200 shadow-md hover:shadow-lg focus-visible:ring-2 focus-visible:ring-[#E11D48]"
+              >
+                I Agree
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Keyframe animations */}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(16px) scale(0.97); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+      `}</style>
+    </>
   )
 }
 
