@@ -8,6 +8,7 @@ import ProductSkeletons from "../../components/skeletons/ProductSkeletons";
 import whatsappIcon from "../../assets/icons8-whatsapp-48.png";
 import { useGetHomeImages } from "../../hooks/useGetHomeImages";
 import PopupAd from "./PopupAd";
+import WhyChooseUs from "./WhyChooseUs";
 import Footer from "../footer/Footer";
 import BottomNavBar from "../navbar/bottomNavbar";
 import { faTelegram } from '@fortawesome/free-brands-svg-icons';
@@ -122,6 +123,7 @@ const HomePage = () => {
           )}
         </div>
       </div>
+      <WhyChooseUs />
       <BottomNavBar />
       <Footer />
     </>
