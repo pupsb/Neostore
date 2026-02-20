@@ -19,7 +19,7 @@ const GridCards = ({ data }) => {
           </div>
         </div>
         <div className="grow-1  w-full md:mt-4  flex flex-col justify-around h-full">
-          <div className="overflow-hidden text-[#E11D48] dark:text-[#B4FF39] md:text-[1.3rem] text-[1rem] md:mt-3">{data.name}</div>
+          <div className="overflow-hidden text-[#E11D48] dark:text-[#B4FF39] md:text-[1.3rem] text-[0.8rem] md:mt-3 line-clamp-2">{data.name}</div>
           <div className="h-[3em] md:text-[1.5rem] text-black dark:text-[#FFFFFF] font-[800] line-clamp-2">Discount</div>
 
           <div className="w-full  md:mt-auto  ">
