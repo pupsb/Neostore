@@ -29,7 +29,7 @@ const ProductCard = ({ data, handleSelected }) => {
       >
         {/* Out of Stock Badge */}
         {!data.inStock && (
-          <div className="absolute top-[-8px] right-[-8px] z-10 bg-red-500 text-white text-[0.6rem] md:text-[0.7rem] font-bold px-2 py-0.5 rounded-full shadow-md">
+          <div className="absolute top-1 right-1 z-10 bg-red-500 text-white text-[0.6rem] md:text-[0.7rem] font-bold px-2 py-0.5 rounded-full shadow-md">
             Out of Stock
           </div>
         )}

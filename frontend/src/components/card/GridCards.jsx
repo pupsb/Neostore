@@ -13,7 +13,7 @@ const GridCards = ({ data }) => {
       >
         {/* Out of Stock Badge */}
         {!data.instock && (
-          <div className="absolute top-[-8px] right-[-8px] z-10 bg-red-500 text-white text-[0.55rem] md:text-[0.65rem] font-bold px-2 py-0.5 rounded-full shadow-md">
+          <div className="absolute top-1 right-1 z-10 bg-red-500 text-white text-[0.55rem] md:text-[0.65rem] font-bold px-2 py-0.5 rounded-full shadow-md">
             Out of Stock
           </div>
         )}
