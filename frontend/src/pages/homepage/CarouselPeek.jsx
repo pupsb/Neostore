@@ -180,10 +180,11 @@ const CarouselPeek = ({ data }) => {
             {/* Desktop 3D Carousel */}
             <div className="hidden md:block relative w-full max-w-5xl mx-auto">
                 <div
-                    className="relative h-[450px] lg:h-[380px] w-full"
+                    className="relative w-full"
                     style={{
                         perspective: '1500px',
-                        perspectiveOrigin: '50% 50%'
+                        perspectiveOrigin: '50% 50%',
+                        aspectRatio: '16 / 7'
                     }}
                 >
                     <div
