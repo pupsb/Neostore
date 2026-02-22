@@ -35,7 +35,7 @@ const ProductCard = ({ data, handleSelected }) => {
         )}
         <div className="flex gap-2 items-center">
           <img
-            className="w-[50px] h-[50px] md:w-[60px] md:h-[60px] rounded-md"
+            className="w-[50px] h-[50px] md:w-[60px] md:h-[60px] rounded-md object-contain"
             src={data.imgpath}
             // src={`/${data.imgpath}`}
             alt=" Item Image"
