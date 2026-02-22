@@ -146,7 +146,14 @@ const Payments = () => {
             </label>
           </div>
 
-          {(!isLoading && !isLoading1) ? (
+          {product?.instock === false ? (
+            <button
+              disabled
+              className="bg-gray-400 dark:bg-gray-600 rounded-full p-2.5 text-white font-[600] text-[1.1rem] w-full cursor-not-allowed opacity-80"
+            >
+              Out of Stock
+            </button>
+          ) : (!isLoading && !isLoading1) ? (
             !isLoggedIn ? (
               <button
                 className="bg-red-500 hover:bg-red-600 rounded-full p-2.5 text-white font-[600] text-[1.1rem] w-full cursor-pointer transition-colors duration-200"

@@ -28,11 +28,10 @@ export default function Sidebar() {
             <Link
               to="/admin"
               onClick={closeSidebar}
-              className={`block p-3 rounded-md transition-colors ${
-                pathname === "/admin"
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "hover:bg-gray-600"
-              }`}
+              className={`block p-3 rounded-md transition-colors ${pathname === "/admin"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "hover:bg-gray-600"
+                }`}
             >
               Dashboard
             </Link>
@@ -41,11 +40,10 @@ export default function Sidebar() {
             <Link
               to="/admin/orders"
               onClick={closeSidebar}
-              className={`block p-3 rounded-md transition-colors ${
-                pathname === "/admin/orders"
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "hover:bg-gray-700"
-              }`}
+              className={`block p-3 rounded-md transition-colors ${pathname === "/admin/orders"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "hover:bg-gray-700"
+                }`}
             >
               Pending Orders
             </Link>
@@ -54,11 +52,10 @@ export default function Sidebar() {
             <Link
               to="/admin/price"
               onClick={closeSidebar}
-              className={`block p-3 rounded-md transition-colors ${
-                pathname === "/admin/price"
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "hover:bg-gray-700"
-              }`}
+              className={`block p-3 rounded-md transition-colors ${pathname === "/admin/price"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "hover:bg-gray-700"
+                }`}
             >
               Update Products and Items
             </Link>
@@ -67,11 +64,10 @@ export default function Sidebar() {
             <Link
               to="/admin/usersdata"
               onClick={closeSidebar}
-              className={`block p-3 rounded-md transition-colors ${
-                pathname === "/admin/usersdata"
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "hover:bg-gray-700"
-              }`}
+              className={`block p-3 rounded-md transition-colors ${pathname === "/admin/usersdata"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "hover:bg-gray-700"
+                }`}
             >
               User Data
             </Link>
@@ -80,11 +76,10 @@ export default function Sidebar() {
             <Link
               to="/admin/txn"
               onClick={closeSidebar}
-              className={`block p-3 rounded-md transition-colors ${
-                pathname === "/admin/txn"
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "hover:bg-gray-700"
-              }`}
+              className={`block p-3 rounded-md transition-colors ${pathname === "/admin/txn"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "hover:bg-gray-700"
+                }`}
             >
               All Orders
             </Link>
@@ -93,11 +88,10 @@ export default function Sidebar() {
             <Link
               to="/admin/wallettxn"
               onClick={closeSidebar}
-              className={`block p-3 rounded-md transition-colors ${
-                pathname === "/admin/wallettxn"
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "hover:bg-gray-700"
-              }`}
+              className={`block p-3 rounded-md transition-colors ${pathname === "/admin/wallettxn"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "hover:bg-gray-700"
+                }`}
             >
               Wallet Transactions
             </Link>
@@ -106,11 +100,10 @@ export default function Sidebar() {
             <Link
               to="/admin/admingallery"
               onClick={closeSidebar}
-              className={`block p-3 rounded-md transition-colors ${
-                pathname === "/admin/admingallery"
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "hover:bg-gray-700"
-              }`}
+              className={`block p-3 rounded-md transition-colors ${pathname === "/admin/admingallery"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "hover:bg-gray-700"
+                }`}
             >
               Gallery
             </Link>
@@ -119,11 +112,10 @@ export default function Sidebar() {
             <Link
               to="/admin/createproduct"
               onClick={closeSidebar}
-              className={`block p-3 rounded-md transition-colors ${
-                pathname === "/admin/createproduct"
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "hover:bg-gray-700"
-              }`}
+              className={`block p-3 rounded-md transition-colors ${pathname === "/admin/createproduct"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "hover:bg-gray-700"
+                }`}
             >
               Create Product
             </Link>
@@ -132,11 +124,10 @@ export default function Sidebar() {
             <Link
               to="/admin/createitems"
               onClick={closeSidebar}
-              className={`block p-3 rounded-md transition-colors ${
-                pathname === "/admin/createitems"
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "hover:bg-gray-700"
-              }`}
+              className={`block p-3 rounded-md transition-colors ${pathname === "/admin/createitems"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "hover:bg-gray-700"
+                }`}
             >
               Create Items
             </Link>
@@ -145,11 +136,10 @@ export default function Sidebar() {
             <Link
               to="/admin/viewitems"
               onClick={closeSidebar}
-              className={`block p-3 rounded-md transition-colors ${
-                pathname === "/admin/viewitems"
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "hover:bg-gray-700"
-              }`}
+              className={`block p-3 rounded-md transition-colors ${pathname === "/admin/viewitems"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "hover:bg-gray-700"
+                }`}
             >
               View Items
             </Link>
@@ -158,11 +148,10 @@ export default function Sidebar() {
             <Link
               to="/admin/viewproducts"
               onClick={closeSidebar}
-              className={`block p-3 rounded-md transition-colors ${
-                pathname === "/admin/viewproducts"
-                  ? "bg-blue-500 hover:bg-blue-400"
-                  : "hover:bg-gray-700"
-              }`}
+              className={`block p-3 rounded-md transition-colors ${pathname === "/admin/viewproducts"
+                ? "bg-blue-500 hover:bg-blue-400"
+                : "hover:bg-gray-700"
+                }`}
             >
               View Products
             </Link>
@@ -173,9 +162,8 @@ export default function Sidebar() {
       {/* Toggle Button */}
       <button
         onClick={toggleSidebar}
-        className={`md:hidden fixed top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-3 rounded-r-md z-50 ${
-          isSidebarOpen ? "right-0" : "right-0"
-        }`}
+        className={`md:hidden fixed top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-3 rounded-r-md z-50 ${isSidebarOpen ? "right-0" : "right-0"
+          }`}
       >
         {isSidebarOpen ? (
           <svg

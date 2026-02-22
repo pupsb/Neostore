@@ -32,11 +32,11 @@ const sanitizeItem = (itemObj) => {
 
 export const getHomeProducts = async(req,res) => {
   try{
-    const trending = await Product.find({istrending : "true", instock: "true"}).select(PUBLIC_PRODUCT_FIELDS);
-    const instantGames = await Product.find({category : "instant-games", instock: "true"}).select(PUBLIC_PRODUCT_FIELDS);
-    const games= await Product.find({category : "games", instock: "true"}).select(PUBLIC_PRODUCT_FIELDS);
-    const ott= await Product.find({category : "ott", instock: "true"}).select(PUBLIC_PRODUCT_FIELDS);
-    const others= await Product.find({category : "others", instock: "true"}).select(PUBLIC_PRODUCT_FIELDS);
+    const trending = await Product.find({istrending : "true"}).select(PUBLIC_PRODUCT_FIELDS);
+    const instantGames = await Product.find({category : "instant-games"}).select(PUBLIC_PRODUCT_FIELDS);
+    const games= await Product.find({category : "games"}).select(PUBLIC_PRODUCT_FIELDS);
+    const ott= await Product.find({category : "ott"}).select(PUBLIC_PRODUCT_FIELDS);
+    const others= await Product.find({category : "others"}).select(PUBLIC_PRODUCT_FIELDS);
 
     // Sanitize all product arrays before sending
     res.status(200).json({

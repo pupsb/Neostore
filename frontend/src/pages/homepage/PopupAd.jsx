@@ -28,7 +28,7 @@ export default function PopupAd({ popupData }) {
           onClick={handlePopupClose}
           className="absolute top-2 right-2 p-1"
         >
-          <img src={closeIcon} alt="Close" className="w-7 h-7 sm:w-6 sm:h-6" />
+          <img src={closeIcon} alt="Close" className="w-7 h-7 sm:w-6 sm:h-6  " />
         </button>
 
         {/* WhatsApp Join Button */}

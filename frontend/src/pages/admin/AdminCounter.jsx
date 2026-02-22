@@ -50,8 +50,8 @@ const AdminCounter = () => {
         </div>
       </div>
       <div className="mt-10 md:flex flex-row">
-        <PointsQuery/>
-        <PointsQueryPh/>
+        <PointsQuery />
+        <PointsQueryPh />
       </div>
     </div>
   );

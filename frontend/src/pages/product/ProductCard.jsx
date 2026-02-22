@@ -17,16 +17,22 @@ const ProductCard = ({ data, handleSelected }) => {
   return (
     <li>
       <div
-        className="p-[1em] bg-[#fff] dark:bg-dark-bg-card rounded-[1em] md:flex flex-col lg:w-[17rem] border border-[#023E8A] dark:border-dark-border transition-colors duration-300 hover:dark:bg-dark-bg-hover cursor-pointer"
+        className="relative p-[1em] bg-[#fff] dark:bg-dark-bg-card rounded-[1em] md:flex flex-col lg:w-[17rem] border border-[#023E8A] dark:border-dark-border transition-colors duration-300 hover:dark:bg-dark-bg-hover cursor-pointer"
         style={
           !data.inStock
-            ? outOfStockStyle
+            ? { pointerEvents: "none" }
             : selected?._id === data._id
               ? selectedStyle
               : {}
         }
         onClick={() => data.inStock && handleSelected(data)}
       >
+        {/* Out of Stock Badge */}
+        {!data.inStock && (
+          <div className="absolute top-[-8px] right-[-8px] z-10 bg-red-500 text-white text-[0.6rem] md:text-[0.7rem] font-bold px-2 py-0.5 rounded-full shadow-md">
+            Out of Stock
+          </div>
+        )}
         <div className="flex gap-2 items-center">
           <img
             className="w-[50px] h-[50px] md:w-[60px] md:h-[60px] rounded-md"
@@ -60,12 +66,6 @@ const ProductCard = ({ data, handleSelected }) => {
             </div>
           </div>
         </div>
-        {/* Display 'Out of Stock' if the product is not in stock */}
-        {!data.inStock && (
-          <div className="text-red-500 dark:text-red-400 font-bold mt-2 text-center">
-            Out of Stock
-          </div>
-        )}
       </div>
     </li>
   );
