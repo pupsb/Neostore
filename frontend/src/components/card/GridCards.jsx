@@ -29,11 +29,7 @@ const GridCards = ({ data }) => {
           <div className="h-[3em] md:text-[1.5rem] text-black dark:text-[#FFFFFF] font-[800] line-clamp-2">Discount</div>
 
           <div className="w-full  md:mt-auto  ">
-            {!data.instock ? (
-              <div className="text-white bg-gray-400 dark:bg-gray-600 p-[3px] rounded-full mb-3 mx-3 border border-gray-400 dark:border-gray-600 cursor-not-allowed">Out of Stock</div>
-            ) : (
-              <div className="text-[#fff] bg-[#E11D48] dark:bg-[#B4FF39] dark:text-[#0A0E13] p-[3px] rounded-full mb-3 mx-3 hover:bg-[#E11D84] dark:hover:bg-[#7FBF3D] hover:text-white transition-colors border border-[#E11D48] dark:border-[#B4FF39]">TOP UP</div>
-            )}
+            <div className={`p-[3px] rounded-full mb-3 mx-3 border ${!data.instock ? 'text-white bg-gray-400 dark:bg-gray-600 border-gray-400 dark:border-gray-600 cursor-not-allowed' : 'text-[#fff] bg-[#E11D48] dark:bg-[#B4FF39] dark:text-[#0A0E13] hover:bg-[#E11D84] dark:hover:bg-[#7FBF3D] hover:text-white transition-colors border-[#E11D48] dark:border-[#B4FF39]'}`}>TOP UP</div>
           </div>
         </div>
       </a>
