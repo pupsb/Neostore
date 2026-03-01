@@ -9,16 +9,27 @@ const getDisplayName = (name) => {
   return name;
 };
 
-// Helper: Get start of current month
-const getStartOfMonth = () => {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth(), 1);
+// IST offset: UTC+5:30 = 5.5 hours in ms
+const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
+
+// Helper: Get current time in IST as component parts
+const getISTNow = () => {
+  const utcNow = new Date();
+  const istTime = new Date(utcNow.getTime() + IST_OFFSET_MS);
+  return { year: istTime.getUTCFullYear(), month: istTime.getUTCMonth() };
 };
 
-// Helper: Get end of current month (start of next month)
+// Helper: Get start of current month (midnight IST on 1st)
+const getStartOfMonth = () => {
+  const { year, month } = getISTNow();
+  // Midnight IST = previous day 18:30 UTC
+  return new Date(Date.UTC(year, month, 1) - IST_OFFSET_MS);
+};
+
+// Helper: Get end of current month (midnight IST on 1st of next month)
 const getEndOfMonth = () => {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const { year, month } = getISTNow();
+  return new Date(Date.UTC(year, month + 1, 1) - IST_OFFSET_MS);
 };
 
 // GET /leaderboard - Get current month leaderboard
@@ -215,9 +226,10 @@ const archiveMonthData = async (targetStart, targetEnd, distributeRewards = true
 // Automatic archive - called by cron on 1st of each month
 export const autoArchivePreviousMonth = async () => {
   try {
-    const now = new Date();
-    const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-    const prevMonthEnd = new Date(now.getFullYear(), now.getMonth(), 1);
+    const { year, month } = getISTNow();
+    // Previous month in IST
+    const prevMonthStart = new Date(Date.UTC(year, month - 1, 1) - IST_OFFSET_MS);
+    const prevMonthEnd = new Date(Date.UTC(year, month, 1) - IST_OFFSET_MS);
 
     console.log(`[LEADERBOARD CRON] Auto-archiving: ${prevMonthStart.toLocaleString("default", { month: "long", year: "numeric" })}`);
     
