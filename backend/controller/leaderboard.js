@@ -120,95 +120,176 @@ export const getLeaderboardHistory = async (req, res) => {
   }
 };
 
+// Helper: Archive a specific month's leaderboard data
+const archiveMonthData = async (targetStart, targetEnd, distributeRewards = true) => {
+  const monthLabel = targetStart.toLocaleString("default", { month: "long", year: "numeric" });
+
+  // Check if already archived
+  const existing = await LeaderboardHistory.findOne({ month: targetStart });
+  if (existing) {
+    return { alreadyArchived: true, monthLabel };
+  }
+
+  // Get top 3
+  const leaderboardData = await Order.aggregate([
+    {
+      $match: {
+        status: "Completed",
+        createdAt: { $gte: targetStart, $lt: targetEnd },
+      },
+    },
+    {
+      $group: {
+        _id: "$userid",
+        totalSpend: { $sum: { $toDouble: "$value" } },
+        useremail: { $first: "$useremail" },
+      },
+    },
+    { $sort: { totalSpend: -1 } },
+    { $limit: 3 },
+  ]);
+
+  if (leaderboardData.length === 0) {
+    return { noData: true, monthLabel };
+  }
+
+  // Get reward amounts from env
+  const rewards = [
+    parseInt(process.env.LEADERBOARD_REWARD_1ST) || 500,
+    parseInt(process.env.LEADERBOARD_REWARD_2ND) || 300,
+    parseInt(process.env.LEADERBOARD_REWARD_3RD) || 100,
+  ];
+
+  // Build winners array and optionally distribute rewards
+  const winners = await Promise.all(
+    leaderboardData.map(async (entry, index) => {
+      let user = await User.findOne({ userid: entry._id });
+      if (!user) {
+        try { user = await User.findById(entry._id); } catch (e) {}
+      }
+      if (!user && entry.useremail) {
+        user = await User.findOne({ email: entry.useremail });
+      }
+
+      const rewardPoints = rewards[index] || 0;
+
+      // Add points to user (only if distributing rewards)
+      if (distributeRewards && rewardPoints > 0 && user) {
+        await Point.findOneAndUpdate(
+          { userid: entry._id },
+          {
+            $inc: { balance: rewardPoints },
+            $push: {
+              transactions: {
+                type: "leaderboard_reward",
+                amount: rewardPoints,
+                date: Date.now(),
+                description: `Rank #${index + 1} reward for ${monthLabel}`,
+              },
+            },
+          }
+        );
+      }
+
+      return {
+        rank: index + 1,
+        userId: entry._id,
+        userName: user?.name || "Anonymous",
+        totalSpend: Math.round(entry.totalSpend),
+        rewardPoints,
+      };
+    })
+  );
+
+  // Save to history
+  const historyEntry = new LeaderboardHistory({
+    month: targetStart,
+    monthLabel,
+    winners,
+  });
+  await historyEntry.save();
+
+  return { success: true, monthLabel, winners };
+};
+
+// Automatic archive - called by cron on 1st of each month
+export const autoArchivePreviousMonth = async () => {
+  try {
+    const now = new Date();
+    const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const prevMonthEnd = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    console.log(`[LEADERBOARD CRON] Auto-archiving: ${prevMonthStart.toLocaleString("default", { month: "long", year: "numeric" })}`);
+    
+    const result = await archiveMonthData(prevMonthStart, prevMonthEnd, true);
+
+    if (result.alreadyArchived) {
+      console.log(`[LEADERBOARD CRON] ${result.monthLabel} already archived, skipping.`);
+    } else if (result.noData) {
+      console.log(`[LEADERBOARD CRON] No orders found for ${result.monthLabel}, skipping.`);
+    } else {
+      console.log(`[LEADERBOARD CRON] Successfully archived ${result.monthLabel}:`, result.winners.map(w => `#${w.rank} ${w.userName} (₹${w.totalSpend})`).join(', '));
+    }
+
+    return result;
+  } catch (err) {
+    console.error("[LEADERBOARD CRON] Auto-archive error:", err.message);
+  }
+};
+
 // POST /leaderboard/archive - Archive current month and distribute rewards (Admin only)
 export const archiveMonth = async (req, res) => {
   try {
     const startOfMonth = getStartOfMonth();
-    const monthLabel = startOfMonth.toLocaleString("default", { month: "long", year: "numeric" });
+    const endOfMonth = getEndOfMonth();
 
-    // Check if already archived
-    const existing = await LeaderboardHistory.findOne({ month: startOfMonth });
-    if (existing) {
-      return res.status(400).json({ error: "This month has already been archived" });
+    const result = await archiveMonthData(startOfMonth, endOfMonth, true);
+
+    if (result.alreadyArchived) {
+      return res.status(400).json({ error: `${result.monthLabel} has already been archived` });
     }
-
-    // Get top 3
-    const leaderboardData = await Order.aggregate([
-      {
-        $match: {
-          status: "Completed",
-          createdAt: { $gte: startOfMonth },
-        },
-      },
-      {
-        $group: {
-          _id: "$userid",
-          totalSpend: { $sum: { $toDouble: "$value" } },
-        },
-      },
-      { $sort: { totalSpend: -1 } },
-      { $limit: 3 },
-    ]);
-
-    if (leaderboardData.length === 0) {
-      return res.status(400).json({ error: "No orders found for this month" });
+    if (result.noData) {
+      return res.status(400).json({ error: `No orders found for ${result.monthLabel}` });
     }
-
-    // Get reward amounts from env
-    const rewards = [
-      parseInt(process.env.LEADERBOARD_REWARD_1ST) || 500,
-      parseInt(process.env.LEADERBOARD_REWARD_2ND) || 300,
-      parseInt(process.env.LEADERBOARD_REWARD_3RD) || 100,
-    ];
-
-    // Build winners array and distribute rewards
-    const winners = await Promise.all(
-      leaderboardData.map(async (entry, index) => {
-        const user = await User.findOne({ userid: entry._id });
-        const rewardPoints = rewards[index] || 0;
-
-        // Add points to user
-        if (rewardPoints > 0 && user) {
-          await Point.findOneAndUpdate(
-            { userid: entry._id },
-            {
-              $inc: { balance: rewardPoints },
-              $push: {
-                transactions: {
-                  type: "leaderboard_reward",
-                  amount: rewardPoints,
-                  date: Date.now(),
-                  description: `Rank #${index + 1} reward for ${monthLabel}`,
-                },
-              },
-            }
-          );
-        }
-
-        return {
-          rank: index + 1,
-          odbc_id: entry._id,
-          userName: user?.name || "Anonymous",
-          totalSpend: Math.round(entry.totalSpend),
-          rewardPoints,
-        };
-      })
-    );
-
-    // Save to history
-    const historyEntry = new LeaderboardHistory({
-      month: startOfMonth,
-      monthLabel,
-      winners,
-    });
-    await historyEntry.save();
 
     res.status(200).json({
-      message: `Successfully archived ${monthLabel} leaderboard`,
-      winners,
+      message: `Successfully archived ${result.monthLabel} leaderboard`,
+      winners: result.winners,
     });
   } catch (err) {
     console.error("[LEADERBOARD ARCHIVE] Error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// POST /leaderboard/recover - Recover/archive a past month (Admin only)
+// Body: { year: 2026, month: 2, distributeRewards: false }
+export const archivePastMonth = async (req, res) => {
+  try {
+    const { year, month, distributeRewards = false } = req.body;
+
+    if (!year || !month) {
+      return res.status(400).json({ error: "year and month are required (e.g., { year: 2026, month: 2 })" });
+    }
+
+    const targetStart = new Date(year, month - 1, 1); // month is 1-indexed from client
+    const targetEnd = new Date(year, month, 1);
+
+    const result = await archiveMonthData(targetStart, targetEnd, distributeRewards);
+
+    if (result.alreadyArchived) {
+      return res.status(400).json({ error: `${result.monthLabel} has already been archived` });
+    }
+    if (result.noData) {
+      return res.status(400).json({ error: `No completed orders found for ${result.monthLabel}` });
+    }
+
+    res.status(200).json({
+      message: `Successfully recovered ${result.monthLabel} leaderboard${distributeRewards ? ' (rewards distributed)' : ' (no rewards distributed)'}`,
+      winners: result.winners,
+    });
+  } catch (err) {
+    console.error("[LEADERBOARD RECOVER] Error:", err.message);
     res.status(500).json({ error: err.message });
   }
 };

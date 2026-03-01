@@ -25,6 +25,8 @@ import walletRoutes from "./routes/wallet.js";
 import pointsRoutes from "./routes/points.js";
 import otpRoutes from "./routes/otpLogin.js";
 import leaderboardRoutes from "./routes/leaderboard.js";
+import cron from "node-cron";
+import { autoArchivePreviousMonth } from "./controller/leaderboard.js";
 
 import Wallet from "./models/Wallet.js";
 import Point from "./models/Points.js";
@@ -192,6 +194,15 @@ mongoose
     console.log("Connected to MongoDB");
     insertData().then(() => {
       app.listen(PORT, () => console.log(`Server is running at Port: ${PORT}`));
+
+      // Cron: Auto-archive leaderboard on the 1st of every month at 00:05 AM
+      cron.schedule('5 0 1 * *', () => {
+        console.log('[CRON] Running monthly leaderboard auto-archive...');
+        autoArchivePreviousMonth();
+      }, {
+        timezone: 'Asia/Kolkata'
+      });
+      console.log('[CRON] Leaderboard auto-archive scheduled for 1st of every month at 00:05 IST');
     });
   })
   .catch((error) => {
