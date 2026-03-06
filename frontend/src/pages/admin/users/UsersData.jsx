@@ -6,13 +6,14 @@ import Spinner from "../../../components/Spinner";
 
 const UsersData = () => {
   const { isLoading1, users, getUsers, totalPages, totalCount } = useGetUsers();
-  const { token } = useContext(VariableContext);
+  const { token, host } = useContext(VariableContext);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterRole, setFilterRole] = useState('All');
   const [filterVerified, setFilterVerified] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState();
+  const [exporting, setExporting] = useState(false);
 
   useEffect(() => {
     async function fetch() {
@@ -35,7 +36,32 @@ const UsersData = () => {
 
   const handleRowsPerPageChange = (event) => {
     setRowsPerPage(Number(event.target.value));
-    setCurrentPage(1); // Reset to first page when rows per page is changed
+    setCurrentPage(1);
+  };
+
+  const handleExportUsers = async () => {
+    try {
+      setExporting(true);
+      const response = await fetch(`${host}/admin/export/users`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "users.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Export failed:", err);
+    } finally {
+      setExporting(false);
+    }
   };
 
   const filteredUsers = users?.filter(user => {
@@ -88,6 +114,14 @@ const UsersData = () => {
                   <option value="true">Verified</option>
                   <option value="false">Unverified</option>
                 </select>
+
+                <button
+                  onClick={handleExportUsers}
+                  disabled={exporting}
+                  className="p-2 mt-4 sm:mt-0 px-4 bg-green-600 hover:bg-green-700 disabled:bg-green-800 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors whitespace-nowrap flex items-center gap-2"
+                >
+                  {exporting ? "Exporting..." : "📥 Export Users CSV"}
+                </button>
               </div>
             </div>
           </div>

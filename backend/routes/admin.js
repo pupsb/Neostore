@@ -1,5 +1,5 @@
 import express from "express";
-import { allTxn, getProcessingOrders, getUsersData, stats, updateOrder, allWalletTxn, addUserWalletBalance, updateUserData, createitem, createproduct, getAllProducts, getAllItems, updateItem, updateProduct, deleteProduct, deleteItem, editItem, editProduct} from "../controller/Admin/admin.js";
+import { allTxn, getProcessingOrders, getUsersData, stats, updateOrder, allWalletTxn, addUserWalletBalance, updateUserData, createitem, createproduct, getAllProducts, getAllItems, updateItem, updateProduct, deleteProduct, deleteItem, editItem, editProduct, exportOrdersCsv, exportUsersCsv} from "../controller/Admin/admin.js";
 import {uploadImage, getImages, deleteImage} from "../controller/Admin/adminGallery.js";
 import { isAdmin, verifyToken } from "../middleware/auth.js";
 import { queryPoints, queryPointsPh } from "../controller/Admin/queryPoints.js";
@@ -37,5 +37,7 @@ router.post("/deleteitem/:itemId", verifyToken, isAdmin, deleteItem);
 
 router.post("/edititem/:itemId", verifyToken, isAdmin, editItem);
 
+router.get("/export/orders", verifyToken, isAdmin, exportOrdersCsv);
+router.get("/export/users", verifyToken, isAdmin, exportUsersCsv);
 
 export default router;

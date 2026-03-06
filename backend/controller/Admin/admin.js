@@ -247,7 +247,18 @@ export const allWalletTxn = async (req, res) => {
 
 export const stats = async (req, res) => {
   try {
-    const allTxn = await Order.find();
+    const { startDate, endDate } = req.query;
+
+    // Build a date filter if query params are provided
+    const dateFilter = {};
+    if (startDate) {
+      dateFilter.createdAt = { ...dateFilter.createdAt, $gte: new Date(startDate) };
+    }
+    if (endDate) {
+      dateFilter.createdAt = { ...dateFilter.createdAt, $lte: new Date(endDate) };
+    }
+
+    const allTxn = await Order.find(dateFilter);
     let processing = 0;
     let completed = 0;
     let refunded = 0;
@@ -640,5 +651,81 @@ export const editProduct = async (req, res) => {
   } catch (error) {
     console.error("Error in editProduct:", error);
     res.status(500).json({ message: error.message });
+  }
+};
+
+// ---- CSV Export helpers ----
+
+function escapeCsvField(field) {
+  if (field === null || field === undefined) return '';
+  const str = String(field);
+  if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+    return '"' + str.replace(/"/g, '""') + '"';
+  }
+  return str;
+}
+
+// Forces Excel to treat the value as text (prevents scientific notation for long numbers)
+function escapeCsvTextField(field) {
+  if (field === null || field === undefined) return '';
+  const str = String(field);
+  return '="' + str.replace(/"/g, '""') + '"';
+}
+
+export const exportOrdersCsv = async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+
+    const headers = ['Order ID', 'Product Name', 'Item Name', 'User Email', 'Status', 'Value (₹)', 'Payment Mode', 'Date', 'Created At'];
+    const rows = orders.map(o => [
+      escapeCsvTextField(o.orderid),
+      escapeCsvField(o.productname || o.product_name),
+      escapeCsvField(o.itemname),
+      escapeCsvField(o.useremail || o.customer_email),
+      escapeCsvField(o.status),
+      escapeCsvField(o.value),
+      escapeCsvField(o.paymentmode),
+      escapeCsvField(o.date),
+      escapeCsvField(o.createdAt ? new Date(o.createdAt).toISOString() : ''),
+    ].join(','));
+
+    const csv = [headers.join(','), ...rows].join('\n');
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=orders.csv');
+    res.status(200).send(csv);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+};
+
+export const exportUsersCsv = async (req, res) => {
+  try {
+    const users = await User.find().sort({ createdAt: -1 });
+    const wallets = await Wallet.find();
+
+    const headers = ['User ID', 'Name', 'Email', 'Mobile', 'Role', 'Verified', 'Blocked', 'Wallet Balance', 'Created At'];
+    const rows = users.map(u => {
+      const wallet = wallets.find(w => w.userid === u.userid);
+      return [
+        u.userid,
+        u.name,
+        u.email,
+        u.mobilenumber,
+        u.role,
+        u.verified,
+        u.isBlocked,
+        wallet ? wallet.balance : 0,
+        u.createdAt ? new Date(u.createdAt).toISOString() : '',
+      ].map(escapeCsvField).join(',');
+    });
+
+    const csv = [headers.join(','), ...rows].join('\n');
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=users.csv');
+    res.status(200).send(csv);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
   }
 };

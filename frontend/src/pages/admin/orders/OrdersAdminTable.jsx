@@ -9,7 +9,7 @@ const OrdersAdminTable = () => {
   const { getAccessTokenSilently } = useAuth0();
   const { orders, getOrders, isLoading1 } = useGetProcessingOrder();
   const [change, setChange] = useState(true);
-  const { token } = useContext(VariableContext);
+  const { token, host } = useContext(VariableContext);
 
   useEffect(() => {
     async function fetch() {
@@ -19,10 +19,40 @@ const OrdersAdminTable = () => {
     fetch();
   }, [change]);
 
+  const handleExportCsv = async () => {
+    try {
+      const res = await fetch(`${host}/admin/export/orders`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "orders.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("CSV export failed", err);
+    }
+  };
+
   return (
     <>
       {!isLoading1 ? (
         <div className="mt-[1rem] lg:mx-[1rem] mx-[1rem] flex flex-col gap-3">
+          {/* Export button */}
+          <div className="flex justify-end">
+            <button
+              onClick={handleExportCsv}
+              className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors"
+            >
+              ⬇ Export CSV
+            </button>
+          </div>
+
           {orders?.length > 0 ? (
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
               <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

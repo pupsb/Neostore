@@ -6,7 +6,7 @@ import Spinner from '../../../components/Spinner';
 
 const AllTxn = () => {
   const { getTxn, txn, isLoading1, totalTxns, page, setPage, rowsPerPage, setRowsPerPage } = useGetAllTxn();
-  const { token } = useContext(VariableContext);
+  const { token, host } = useContext(VariableContext);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
@@ -55,6 +55,26 @@ const AllTxn = () => {
     setRowsPerPage(event.target.value);
     setPage(1); // Reset to page 1 when rows per page is changed
     getTxn(token, 1, event.target.value); // Fetch data for page 1 with updated rowsPerPage
+  };
+
+  const handleExportCsv = async () => {
+    try {
+      const res = await fetch(`${host}/admin/export/orders`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "orders.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("CSV export failed", err);
+    }
   };
 
   const filteredTxns = txn?.filter((order) => {
@@ -160,20 +180,28 @@ const AllTxn = () => {
 
           {/* Pagination Control */}
           <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
-            {/* Rows per page section */}
-            <div className="mb-4 sm:mb-0">
-              <label htmlFor="rowsPerPage" className="mr-2 text-sm">Rows per page:</label>
-              <select
-                id="rowsPerPage"
-                value={rowsPerPage}
-                onChange={handleRowsPerPageChange}
-                className="p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white text-sm"
+            {/* Rows per page + Export section */}
+            <div className="mb-4 sm:mb-0 flex items-center gap-4">
+              <div>
+                <label htmlFor="rowsPerPage" className="mr-2 text-sm">Rows per page:</label>
+                <select
+                  id="rowsPerPage"
+                  value={rowsPerPage}
+                  onChange={handleRowsPerPageChange}
+                  className="p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white text-sm"
+                >
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="250">250</option>
+                  <option value="500">500</option>
+                </select>
+              </div>
+              <button
+                onClick={handleExportCsv}
+                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md transition-colors whitespace-nowrap"
               >
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="250">250</option>
-                <option value="500">500</option>
-              </select>
+                📥 Export CSV
+              </button>
             </div>
 
             {/* Pagination controls */}
