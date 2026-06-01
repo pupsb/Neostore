@@ -13,7 +13,7 @@ body {
   font-family: "Rubik", sans-serif;
   overflow-y: scroll;
   /* Ensure vertical scrolling is enabled */
-  overflow-x: clip;
+  overflow-x: hidden;
   /* Disable horizontal scrolling */
   margin: 0;
   padding: 0;
