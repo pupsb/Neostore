@@ -17,7 +17,7 @@ export const usePostOrder = () => {
     try {
       console.log('Sending order creation request:', values);
       
-      const response = await fetch(`${host}/order/expay/createOrder`, {
+      const response = await fetch(`${host}/order/aluu/createOrder`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

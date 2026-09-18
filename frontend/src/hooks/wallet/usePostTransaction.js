@@ -15,7 +15,7 @@ export const usePostTransaction = () => {
     try {
       console.log('Sending wallet top-up request:', values);
       
-      const response = await fetch(`${host}/wallet/expay/topup`, {
+      const response = await fetch(`${host}/wallet/aluu/topup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

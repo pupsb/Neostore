@@ -32,7 +32,7 @@ export const useOrderStatus = () => {
     let clientTxnId = params.get("client_txn_id");
     
 
-    const response = await fetch(`${host}/order/expay/orderstatus`, {
+    const response = await fetch(`${host}/order/aluu/orderstatus`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

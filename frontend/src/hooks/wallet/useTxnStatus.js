@@ -30,7 +30,7 @@ export const useTxnStatus = () => {
 
     let clientTxnId = params.get("client_txn_id");
 
-    const response = await fetch(`${host}/wallet/expay/txnstatus`, {
+    const response = await fetch(`${host}/wallet/aluu/txnstatus`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
